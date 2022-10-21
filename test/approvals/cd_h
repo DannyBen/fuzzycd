@@ -1,4 +1,4 @@
-../fuzzy-cd: line 61: show_version: command not found
+fuzzy-cd 0.1.1
 
 Usage:
   cd DIR       change working directory

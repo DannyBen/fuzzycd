@@ -6,10 +6,12 @@ on:
 jobs:
   test:
     name: Run test suite
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+    - name: Install fzf
+      run: sudo apt install -y fzf
     - name: Run shellcheck tests
       run: shellcheck fuzzy-cd setup
     - name: Run approval tests

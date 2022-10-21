@@ -13,8 +13,8 @@ unalias cd 2> /dev/null
 cd() {
   local version="0.1.1"
   local histfile=${FUZZYCD_HISTORY_FILE:-"$HOME/.fuzzy-cd-history"}
-  
-  is_dirname() {
+
+  _fzcd_is_dirname() {
     if [[ -d "$1" ]]; then
       return 0
     
@@ -28,37 +28,41 @@ cd() {
     return 1
   }
 
-  unhandled_command() {
+  _fzcd_unhandled_command() {
     [[ $# == 0 || $1 == -* ]]
   }
 
-  run_fzf() {
+  _fzcd_run_fzf() {
     # shellcheck disable=SC2145
-    fzf --query="$@" --select-1 --exit-0 --scheme=path --info=hidden --prompt="➜ cd " --preview='ls {}' --preview-window="border-left"
+    fzf --query="$@" --select-1 --exit-0 --info=hidden --prompt="➜ cd " --preview='ls {}' --preview-window="border-left"
   }
 
-  dir_search() {
-    run_fzf "$@" < "$histfile"
+  _fzcd_dir_search() {
+    _fzcd_run_fzf "$@" < "$histfile"
   }
 
-  remember_me() {
+  _fzcd_remember_me() {
     grep -qxF "$PWD" "$histfile" || echo "$PWD" >> "$histfile"
   }
 
-  chdir() {
-    builtin cd "$@" && remember_me
+  _fzcd_chdir() {
+    builtin cd "$@" && _fzcd_remember_me
   }
 
-  edit_histfile() {
+  _fzcd_edit_histfile() {
     "${EDITOR:-cat}" "$histfile"
   }
 
-  show_histfile() {
+  _fzcd_show_histfile() {
     cat "$histfile"
   }
 
-  show_usage() {
-    show_version
+  _fzcd_show_version() {
+    echo "fuzzy-cd $version"
+  }
+
+  _fzcd_show_usage() {
+    _fzcd_show_version
     echo ""
     echo "Usage:"
     echo "  cd DIR       change working directory"
@@ -70,33 +74,33 @@ cd() {
     echo "  cd -h        show this help"
   }
 
-  handle_command() {
-    if unhandled_command "$@"; then
-      chdir "$@"
-    elif is_dirname "$1"; then
-      chdir "$1"
+  _fzcd_handle_command() {
+    if _fzcd_unhandled_command "$@"; then
+      _fzcd_chdir "$@"
+    elif _fzcd_is_dirname "$1"; then
+      _fzcd_chdir "$1"
     else    
-      target=$(dir_search "$@")
+      target=$(_fzcd_dir_search "$@")
       if [[ -n $target ]]; then
-        chdir "$target"
+        _fzcd_chdir "$target"
       else
-        chdir "$@"
+        _fzcd_chdir "$@"
       fi
     fi
   }
 
-  run() {
+  _fzcd_run() {
     [[ -f "$histfile" ]] || touch "$histfile"
 
     case "$1" in
-      "-l" ) dir_search ;;
-      "-v" ) echo "fuzzy-cd $version" ;;
-      "-e" ) edit_histfile ;;
-      "-s" ) show_histfile ;;
-      "-h" ) show_usage ;;
-      *    ) handle_command "$@" ;;
+      "-l" ) _fzcd_dir_search ;;
+      "-v" ) _fzcd_show_version ;;
+      "-e" ) _fzcd_edit_histfile ;;
+      "-s" ) _fzcd_show_histfile ;;
+      "-h" ) _fzcd_show_usage ;;
+      *    ) _fzcd_handle_command "$@" ;;
     esac
   }  
 
-  run "$@"
+  _fzcd_run "$@"
 }
