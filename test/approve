@@ -19,7 +19,7 @@ context "when the shell is non-interactive"
 context "when the shell is interactive"
 
   export FUZZYCD_TTY_FORCE=1
-  source ../fuzzy-cd
+  source ../fuzzy-cd || echo "asd"
 
   describe "cd is a function"
     approve "type -t cd" "type_function"
