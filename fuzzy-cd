@@ -34,7 +34,7 @@ cd() {
 
   _fzcd_run_fzf() {
     # shellcheck disable=SC2145
-    fzf --query="$@" --select-1 --exit-0 --scheme=path --info=hidden --prompt="➜ cd " --preview='ls {}' --preview-window="border-left"
+    fzf --query="$@" --select-1 --exit-0 --info=hidden --prompt="➜ cd " --preview='ls {}' --preview-window="border-left"
   }
 
   _fzcd_dir_search() {
