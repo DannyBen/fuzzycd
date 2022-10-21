@@ -6,7 +6,7 @@ source approvals.bash
 # Before All
 export FUZZYCD_TTY_FORCE=1
 ../setup
-source ./bashrc
+source ~/.bashrc
 # ---
 
 describe "cd is a function"
