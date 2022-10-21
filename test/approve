@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+cd test > /dev/null
+source approvals.bash
+
+# Before All
+source ../fuzzy-cd
+export FUZZYCD_HISTORY_FILE="$PWD/tmp/histfile"
+mkdir -p tmp/one/two
+# ---
+
+describe "non interactive"
+  approve "type -t cd" "type_builtin"
+
+# Before interactive tests
+export FUZZYCD_TTY_FORCE=1
+source ../fuzzy-cd
+# ---
+
+describe "interactive"
+  approve "type -t cd" "type_function"
+
+describe "flags"
+  approve "cd -v"
+
+describe "cd with fuzzy string"
+  approve "cd tmp/one/two > /dev/null && pwd"
+  approve "cd ontwo > /dev/null && pwd"
+
+green "All OK"
