@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# NOTE: This should be executed in CI only
+
 cd test > /dev/null
 source approvals.bash
 

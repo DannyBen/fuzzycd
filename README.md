@@ -13,6 +13,7 @@ instantly using a fuzzy search.
   input fuzzy search (unless it matches an actual directory).
 - Shows available choices, with `ls` preview, when there are more than one
   matches.
+- Does not override the builtin `cd` when running non-interactively.
 - Adds `cd -l` flag, to show the entire history with `ls` preview.
 
 
@@ -37,7 +38,32 @@ You are encouraged to inspect the [setup script](setup) before running.
 ### Installing manually
 
 1. Place the `fuzzy-cd` file somewhere on your system (for example: `~/.fuzzy-cd/fuzzy-cd`)
-2. Source it (`source ~/.fuzzy-cd/fuzzy-cd`) from your initialization script (for example: `~/.bashrc`)
+2. Source it (`source ~/.fuzzy-cd/fuzzy-cd`) from your startup script (for example: `~/.bashrc`)
+
+
+## Usage
+
+
+First, verify that Fuzzy CD is properly installed by running:
+
+```shell
+$ cd -v
+```
+
+Now, you can use `cd` normally to change to any directory. These directories
+will be remembered in a history file. You can view this file by running:
+
+```shell
+$ cat ~/.fuzzy-cd-history
+```
+
+### Fuzzy search
+
+Use `cd` with a string that is *not* a directory. If exactly one directory in
+the history matches this string, you will instantly `cd` to it as usual.
+
+If more than one directories match, you will be prompted to choose one of the
+matching directories.
     
 
 ## Contributing / Support
