@@ -1,5 +1,8 @@
 # Fuzzy CD
 
+![Version](https://img.shields.io/badge/version-0.1.1-blue.svg)
+[![Build Status](https://github.com/DannyBen/fuzzy-cd/workflows/Test/badge.svg)](https://github.com/DannyBen/fuzzy-cd/actions?query=workflow%3ATest)
+
 A bash function that patches the native `cd` to allow changing directories
 instantly using a fuzzy search.
 
@@ -47,7 +50,7 @@ You are encouraged to inspect the [setup script](setup) before running.
 First, verify that Fuzzy CD is properly installed by running:
 
 ```shell
-$ cd -v
+$ cd -h
 ```
 
 Now, you can use `cd` normally to change to any directory. These directories
