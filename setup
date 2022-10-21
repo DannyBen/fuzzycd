@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+fuzzy_cd_setup() {
+  patched="no"
+
+  patch_file() {
+    file="$1"
+    if grep -q .fuzzy-cd/fuzzy-cd "$file"; then
+      echo "=== Skipping $file"
+    else
+      echo "=== Amending $file"
+      printf "source ~/.fuzzy-cd/fuzzy-cd\n" >> "$file"
+    fi
+    patched="yes"
+  }
+
+  download_script() {
+    echo "=== Saving fuzzy-cd to ~/.fuzzy-cd/"
+    mkdir -p "$HOME/.fuzzy-cd"
+    # curl -s https://raw.githubusercontent.com/DannyBen/fuzzy-cd/master/fuzzy-cd > $HOME/.fuzzy-cd/fuzzy-cd
+    cp fuzzy-cd $HOME/.fuzzy-cd/fuzzy-cd
+  }
+
+  patch_startup_files() {
+    echo "=== Searching for startup files"
+    [[ -f "$HOME/.zshrc" ]] && patch_file "$HOME/.zshrc"
+    [[ -f "$HOME/.bashrc" ]] && patch_file "$HOME/.bashrc"
+  }
+
+  show_exit_message() {
+    if [[ $patched == "yes" ]]; then
+      echo "=== Done. You may need to source $file or restart your session"
+    else
+      echo "=== Setup is INCOMPLETE"
+      echo "    Add 'source ~/.fuzzy-cd/fuzzy-cd' to your shell's initialization script"
+      exit 1
+    fi
+
+  }
+
+  download_script
+  patch_startup_files
+  show_exit_message
+}
+
+fuzzy_cd_setup
