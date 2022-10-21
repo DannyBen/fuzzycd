@@ -6,6 +6,7 @@ source approvals.bash
 # Before All
 source ../fuzzy-cd
 export FUZZYCD_HISTORY_FILE="$PWD/tmp/histfile"
+rm -f "$FUZZYCD_HISTORY_FILE"
 mkdir -p tmp/one/two
 # ---
 
@@ -20,6 +21,9 @@ source ../fuzzy-cd
 describe "cd is a function when interactive"
   approve "type -t cd" "type_function"
 
+describe "cd -h shows help"
+  approve "cd -h"
+
 describe "cd -v shows version"
   approve "cd -v"
 
@@ -32,4 +36,14 @@ describe "cd with a fuzzy string works"
   cd ontwo > /dev/null
   [[ $PWD == *tmp/one/two ]] || fail "Expected tmp/one/twp, got $PWD"
 
+# run these after we have a file
+describe "cd -s shows history file"
+  approve "cd -s"
+
+describe "cd -e opens the history file"
+  EDITOR="cat"
+  approve "cd -e"
+
 green "All OK"
+
+
