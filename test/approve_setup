@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+cd test > /dev/null
+source approvals.bash
+
+# Before All
+export FUZZYCD_TTY_FORCE=1
+../setup
+source ./bashrc
+# ---
+
+describe "cd is a function"
+  [[ "$(type -t cd)" == "function" ]] || fail "Expected function got $(type -t cd)"
+
+green "All OK"
