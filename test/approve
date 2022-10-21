@@ -1,49 +1,57 @@
 #!/usr/bin/env bash
 
 cd test > /dev/null
+export APPROVALS_DIR="$PWD/approvals"
 source approvals.bash
 
-# Before All
+basedir="$PWD"
 source ../fuzzy-cd
 export FUZZYCD_HISTORY_FILE="$PWD/tmp/histfile"
 rm -f "$FUZZYCD_HISTORY_FILE"
 mkdir -p tmp/one/two
-# ---
 
-describe "cd is builtin when in non interactive"
-  approve "type -t cd" "type_builtin"
+context "when the shell is non-interactive"
 
-# Before interactive tests
-export FUZZYCD_TTY_FORCE=1
-source ../fuzzy-cd
-# ---
+  describe "cd is builtin"
+    approve "type -t cd" "type_builtin"
 
-describe "cd is a function when interactive"
-  approve "type -t cd" "type_function"
 
-describe "cd -h shows help"
-  approve "cd -h"
+context "when the shell is interactive"
 
-describe "cd -v shows version"
-  approve "cd -v"
+  export FUZZYCD_TTY_FORCE=1
+  source ../fuzzy-cd
 
-describe "cd with a directory adds it to history"
-  cd tmp/one/two > /dev/null
-  [[ $PWD == *tmp/one/two ]] || fail "Expected tmp/one/twp, got $PWD"
-  grep -q one/two "$FUZZYCD_HISTORY_FILE" || fail "Expected history file to contain one/two"
+  describe "cd is a function"
+    approve "type -t cd" "type_function"
 
-describe "cd with a fuzzy string works"
-  cd ontwo > /dev/null
-  [[ $PWD == *tmp/one/two ]] || fail "Expected tmp/one/twp, got $PWD"
+  describe "cd -h shows help"
+    approve "cd -h"
 
-# run these after we have a file
-describe "cd -s shows history file"
-  approve "cd -s"
+  describe "cd -v shows version"
+    approve "cd -v"
 
-describe "cd -e opens the history file"
+  describe "cd with a directory adds it to history"
+    cd tmp/one/two > /dev/null
+    [[ $PWD == *tmp/one/two ]] || fail "Expected tmp/one/twp, got $PWD"
+    grep -q one/two "$FUZZYCD_HISTORY_FILE" || fail "Expected history file to contain one/two"
+
+  describe "cd with a fuzzy string works"
+    cd ontwo > /dev/null
+    [[ $PWD == *tmp/one/two ]] || fail "Expected tmp/one/twp, got $PWD"
+
+
+context "when the history file contains some entries"
+  rm -f "$FUZZYCD_HISTORY_FILE"  
+  cd /usr/local/bin > /dev/null
+  cd /etc > /dev/null
   EDITOR="cat"
-  approve "cd -e"
 
-green "All OK"
+  describe "cd -s shows history file"
+    approve "cd -s"
 
+  describe "cd -e opens the history file"
+    approve "cd -e"
+
+  cd "$basedir"
+  rm -f "$FUZZYCD_HISTORY_FILE"  
 
