@@ -49,6 +49,15 @@ cd() {
     builtin cd "$@" && _fzcd_remember_me
   }
 
+  _fzcd_chdir_fzf() {
+    target=$(_fzcd_dir_search "$@")
+    if [[ -n $target ]]; then
+      _fzcd_chdir "$target"
+    else
+      _fzcd_chdir "$@"
+    fi
+  }
+
   _fzcd_edit_histfile() {
     "${EDITOR:-cat}" "$histfile"
   }
@@ -80,12 +89,7 @@ cd() {
     elif _fzcd_is_dirname "$1"; then
       _fzcd_chdir "$1"
     else    
-      target=$(_fzcd_dir_search "$@")
-      if [[ -n $target ]]; then
-        _fzcd_chdir "$target"
-      else
-        _fzcd_chdir "$@"
-      fi
+      _fzcd_chdir_fzf "$@"
     fi
   }
 
@@ -93,7 +97,7 @@ cd() {
     [[ -f "$histfile" ]] || touch "$histfile"
 
     case "$1" in
-      "-l" ) _fzcd_dir_search ;;
+      "-l" ) _fzcd_chdir_fzf ;;
       "-v" ) _fzcd_show_version ;;
       "-e" ) _fzcd_edit_histfile ;;
       "-s" ) _fzcd_show_histfile ;;
