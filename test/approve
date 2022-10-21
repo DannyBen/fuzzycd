@@ -9,7 +9,7 @@ export FUZZYCD_HISTORY_FILE="$PWD/tmp/histfile"
 mkdir -p tmp/one/two
 # ---
 
-describe "non interactive"
+describe "cd is builtin when in non interactive"
   approve "type -t cd" "type_builtin"
 
 # Before interactive tests
@@ -17,14 +17,19 @@ export FUZZYCD_TTY_FORCE=1
 source ../fuzzy-cd
 # ---
 
-describe "interactive"
+describe "cd is a function when interactive"
   approve "type -t cd" "type_function"
 
-describe "flags"
+describe "cd -v shows version"
   approve "cd -v"
 
-describe "cd with fuzzy string"
-  approve "cd tmp/one/two > /dev/null && pwd"
-  approve "cd ontwo > /dev/null && pwd"
+describe "cd with a directory adds it to history"
+  cd tmp/one/two > /dev/null
+  [[ $PWD == *tmp/one/two ]] || fail "Expected tmp/one/twp, got $PWD"
+  grep -q one/two "$FUZZYCD_HISTORY_FILE" || fail "Expected history file to contain one/two"
+
+describe "cd with a fuzzy string works"
+  cd ontwo > /dev/null
+  [[ $PWD == *tmp/one/two ]] || fail "Expected tmp/one/twp, got $PWD"
 
 green "All OK"
