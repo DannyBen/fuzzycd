@@ -1,0 +1,10 @@
+../fuzzy-cd: line 61: show_version: command not found
+
+Usage:
+  cd DIR       change working directory
+  cd SEARCH    change working directory or show selection menu
+  cd -l        list history with fzf
+  cd -e        edit history file
+  cd -s        show history file
+  cd -v        show version
+  cd -h        show this help

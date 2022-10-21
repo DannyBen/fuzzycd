@@ -11,7 +11,7 @@ fi
 
 unalias cd 2> /dev/null
 cd() {
-  local version="0.1.0"
+  local version="0.1.1"
   local histfile=${FUZZYCD_HISTORY_FILE:-"$HOME/.fuzzy-cd-history"}
   
   is_dirname() {
@@ -26,18 +26,6 @@ cd() {
     fi
 
     return 1
-  }
-
-  show_list_requested() {
-    [[ "$1" == '-l' ]]
-  }
-
-  show_version_requested() {
-    [[ "$1" == '-v' ]]      
-  }
-  
-  show_version() {
-    echo "fuzzy-cd $version"
   }
 
   unhandled_command() {
@@ -61,22 +49,54 @@ cd() {
     builtin cd "$@" && remember_me
   }
 
-  [[ -f "$histfile" ]] || touch "$histfile"
+  edit_histfile() {
+    "${EDITOR:-cat}" "$histfile"
+  }
 
-  if show_list_requested "$@"; then
-    dir_search
-  elif show_version_requested "$@"; then
+  show_histfile() {
+    cat "$histfile"
+  }
+
+  show_usage() {
     show_version
-  elif unhandled_command "$@"; then
-    chdir "$@"
-  elif is_dirname "$1"; then
-    chdir "$1"
-  else    
-    target=$(dir_search "$@")
-    if [[ -n $target ]]; then
-      chdir "$target"
-    else
+    echo ""
+    echo "Usage:"
+    echo "  cd DIR       change working directory"
+    echo "  cd SEARCH    change working directory or show selection menu"
+    echo "  cd -l        list history with fzf"
+    echo "  cd -e        edit history file"
+    echo "  cd -s        show history file"
+    echo "  cd -v        show version"
+    echo "  cd -h        show this help"
+  }
+
+  handle_command() {
+    if unhandled_command "$@"; then
       chdir "$@"
+    elif is_dirname "$1"; then
+      chdir "$1"
+    else    
+      target=$(dir_search "$@")
+      if [[ -n $target ]]; then
+        chdir "$target"
+      else
+        chdir "$@"
+      fi
     fi
-  fi
+  }
+
+  run() {
+    [[ -f "$histfile" ]] || touch "$histfile"
+
+    case "$1" in
+      "-l" ) dir_search ;;
+      "-v" ) echo "fuzzy-cd $version" ;;
+      "-e" ) edit_histfile ;;
+      "-s" ) show_histfile ;;
+      "-h" ) show_usage ;;
+      *    ) handle_command "$@" ;;
+    esac
+  }  
+
+  run "$@"
 }
