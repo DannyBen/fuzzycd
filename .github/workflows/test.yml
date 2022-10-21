@@ -1,0 +1,40 @@
+name: Test
+on:
+  pull_request:
+  push: { branches: master }
+
+jobs:
+  test:
+    name: Run test suite
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run shellcheck tests
+      run: shellcheck fuzzy-cd setup
+
+  # ubuntu_setup:
+  #   name: Setup on Ubuntu
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v2
+  #   - name: Run setup
+  #     run: ./setup
+  #   - name: Test setup artifacts
+  #     run: test/setup_artifacts
+
+  # macos_setup:
+  #   name: Setup on macOS
+  #   runs-on: macos-latest
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v2
+  #   - name: Upgrade the outdated bash
+  #     run: brew install bash
+  #   - name: Run setup
+  #     run: ./setup
+  #   - name: Test setup artifacts
+  #     run: test/setup_artifacts
+

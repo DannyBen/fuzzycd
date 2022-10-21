@@ -3,6 +3,7 @@
 if [[ -t 1 ]]; then
   unalias cd 2> /dev/null
   cd() {
+    local version="0.1.0"
     local histfile="$HOME/.fuzzy-cd-history"
     
     is_dirname() {
@@ -10,7 +11,7 @@ if [[ -t 1 ]]; then
         return 0
       
       elif [[ -n "$CDPATH" ]]; then
-        cdpath=(${CDPATH//:/ })
+        cdpath=("${CDPATH//:/ }")
         for path in "${cdpath[@]}"; do
           [[ -d "$path/$1" ]] && return 0
         done
@@ -23,16 +24,25 @@ if [[ -t 1 ]]; then
       [[ "$1" == '-l' ]]
     }
 
+    show_version_requested() {
+      [[ "$1" == '-v' ]]      
+    }
+    
+    show_version() {
+      echo "fuzzy-cd $version"
+    }
+
     unhandled_command() {
       [[ $# == 0 || $1 == -* ]]
     }
 
     run_fzf() {
-      fzf --query="$@" --select-1 --exit-0 --scheme=path --info=hidden --prompt="➜ cd " --preview="ls {}" --preview-window="border-left"
+      # shellcheck disable=SC2145
+      fzf --query="$@" --select-1 --exit-0 --scheme=path --info=hidden --prompt="➜ cd " --preview='ls {}' --preview-window="border-left"
     }
 
     dir_search() {
-      cat "$histfile" | run_fzf "$@"
+      run_fzf "$@" < "$histfile"
     }
 
     remember_me() {
@@ -47,6 +57,8 @@ if [[ -t 1 ]]; then
 
     if show_list_requested "$@"; then
       dir_search
+    elif show_version_requested "$@"; then
+      show_version
     elif unhandled_command "$@"; then
       chdir "$@"
     elif is_dirname "$1"; then

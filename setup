@@ -17,7 +17,7 @@ fuzzy_cd_setup() {
   download_script() {
     echo "=== Saving fuzzy-cd to ~/.fuzzy-cd/"
     mkdir -p "$HOME/.fuzzy-cd"
-    curl -s https://raw.githubusercontent.com/DannyBen/fuzzy-cd/master/fuzzy-cd > $HOME/.fuzzy-cd/fuzzy-cd
+    curl -s https://raw.githubusercontent.com/DannyBen/fuzzy-cd/master/fuzzy-cd > "$HOME/.fuzzy-cd/fuzzy-cd"
   }
 
   patch_startup_files() {
