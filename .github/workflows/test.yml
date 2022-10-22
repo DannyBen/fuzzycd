@@ -19,6 +19,19 @@ jobs:
     - name: Run approval tests
       run: test/approve
 
+  test_mac:
+    name: Run test suite on Mac
+    runs-on: macos-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install fzf
+      run: brew install fzf
+    - name: Run shellcheck tests
+      run: shellcheck fuzzycd setup
+    - name: Run approval tests
+      run: test/approve
+
   ubuntu_setup:
     name: Setup on Ubuntu
     runs-on: ubuntu-latest
