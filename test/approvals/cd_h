@@ -1,4 +1,4 @@
-fuzzy-cd 0.1.2
+fuzzycd 0.2.0
 
 Usage:
   cd DIR       change working directory
@@ -6,5 +6,17 @@ Usage:
   cd -l        list history with fzf
   cd -e        edit history file
   cd -s        show history file
+  cd -d [DIR]  remove current or specified directory from history
   cd -v        show version
   cd -h        show this help
+
+Environment Variables:
+  FUZZYCD_HISTORY_FILE
+    Path to history file [default: ~/.fuzzycd-history
+
+  FUZZYCD_MODE
+    Set mode to one of (default, non-interactive, no-preview)
+
+Interactive Keyboard Bindings:
+  Del
+    Delete selected directory from history

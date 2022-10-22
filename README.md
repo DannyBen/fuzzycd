@@ -11,7 +11,7 @@ instantly using a fuzzy search
 # Fuzzy CD
 
 ![Version](https://img.shields.io/badge/version-0.1.2-blue.svg)
-[![Build Status](https://github.com/DannyBen/fuzzy-cd/workflows/Test/badge.svg)](https://github.com/DannyBen/fuzzy-cd/actions?query=workflow%3ATest)
+[![Build Status](https://github.com/DannyBen/fuzzycd/workflows/Test/badge.svg)](https://github.com/DannyBen/fuzzycd/actions?query=workflow%3ATest)
 
 ## Features
 
@@ -35,19 +35,19 @@ Fuzzy CD requires a recent version of [fzf].
 
 ### Installing using the setup script
 
-This setup script will download the `fuzzy-cd` function to `~/.fuzzy-cd/` and
+This setup script will download the `fuzzycd` function to `/usr/local/bin` and
 apply the necessary `source` command to your startup script.
 
 ```shell
-$ curl -Ls get.dannyb.co/fuzzy-cd/setup | bash
+$ curl -Ls get.dannyb.co/fuzzycd/setup | bash
 ```
 
 You are encouraged to inspect the [setup script](setup) before running.
 
 ### Installing manually
 
-1. Place the `fuzzy-cd` file somewhere on your system (for example: `~/.fuzzy-cd/fuzzy-cd`)
-2. Source it (`source ~/.fuzzy-cd/fuzzy-cd`) from your startup script (for example: `~/.bashrc`)
+1. Place the `fuzzycd` file in `/usr/local/bin/` and make it executable
+2. Source it (`source /usr/local/bin/fuzzycd`) from your startup script (for example: `~/.bashrc`)
 
 
 ## Usage
@@ -63,7 +63,9 @@ Now, you can use `cd` normally to change to any directory. These directories
 will be remembered in a history file. You can view this file by running:
 
 ```shell
-$ cat ~/.fuzzy-cd-history
+$ cd -s
+# or
+$ cat ~/.fuzzycd-history
 ```
 
 ### Fuzzy search
@@ -82,5 +84,5 @@ to contribute, feel free to [open an issue][issues].
 
 ---
 
-[issues]: https://github.com/DannyBen/fuzzy-cd/issues
+[issues]: https://github.com/DannyBen/fuzzycd/issues
 [fzf]: https://github.com/junegunn/fzf

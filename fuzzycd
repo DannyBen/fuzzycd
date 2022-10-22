@@ -1,0 +1,158 @@
+#!/usr/bin/env bash
+
+fuzzycd_run() {
+  local version="0.2.0"
+  local histfile=${FUZZYCD_HISTORY_FILE:-"$HOME/.fuzzycd-history"}
+
+  _fzcd_is_dirname() {
+    if [[ -d "$1" ]]; then
+      return 0
+    
+    elif [[ -n "$CDPATH" ]]; then
+      cdpath=("${CDPATH//:/ }")
+      for path in "${cdpath[@]}"; do
+        [[ -d "$path/$1" ]] && return 0
+      done
+    fi
+
+    return 1
+  }
+
+  _fzcd_unhandled_command() {
+    [[ $# == 0 || $1 == -* ]]
+  }
+
+  _fzcd_run_fzf() {
+    # shellcheck disable=SC2145
+    
+    case "$FUZZYCD_MODE" in
+      "non-interactive" )
+        fzf --filter "$@" --exit-0 | head -1
+        ;;
+
+      "no-preview" )
+        fzf --query="$@" --bind="del:execute-silent(fuzzycd -d {})+reload(fuzzycd -s)" --select-1 --exit-0 --info=hidden --prompt="➜ cd "
+        ;;
+
+      * )
+        fzf --query="$@" --bind="del:execute-silent(fuzzycd -d {})+reload(fuzzycd -s)" --select-1 --exit-0 --info=hidden --prompt="➜ cd " --preview='ls {}' --preview-window="border-left"
+        ;;
+    esac
+  }
+
+  _fzcd_dir_search() {
+    _fzcd_run_fzf "$@" < "$histfile"
+  }
+
+  _fzcd_remember_me() {
+    grep -qxF "$PWD" "$histfile" || echo "$PWD" >> "$histfile"
+  }
+
+  _fzcd_create_histfile() {
+    mkdir -p "$(dirname "$histfile")" && touch "$histfile";
+  }
+
+  _fzcd_chdir() {
+    builtin cd "$@" && _fzcd_remember_me
+  }
+
+  _fzcd_chdir_fzf() {
+    target=$(_fzcd_dir_search "$@")
+    if [[ -n $target ]]; then
+      _fzcd_chdir "$target"
+      echo "$target"
+    elif [[ -n "$1" ]]; then
+      _fzcd_chdir "$@"
+    fi
+  }
+
+  _fzcd_edit_histfile() {
+    "${EDITOR:-cat}" "$histfile"
+  }
+
+  _fzcd_show_histfile() {
+    cat "$histfile"
+  }
+
+  _fzcd_show_version() {
+    echo "fuzzycd $version"
+  }
+
+  _fzcd_delete_dir() {
+    dir="${1:-$PWD}"
+    grep -Fxv "$dir" "$histfile" > "$HOME/.fuzzycd-history.tmp"
+    cp "$HOME/.fuzzycd-history.tmp" "$histfile"
+    rm -f "$HOME/.fuzzycd-history.tmp"
+    echo "deleted $dir"
+  }
+
+  _fzcd_show_usage() {
+    _fzcd_show_version
+    echo ""
+    echo "Usage:"
+    echo "  cd DIR       change working directory"
+    echo "  cd SEARCH    change working directory or show selection menu"
+    echo "  cd -l        list history with fzf"
+    echo "  cd -e        edit history file"
+    echo "  cd -s        show history file"
+    echo "  cd -d [DIR]  remove current or specified directory from history"
+    echo "  cd -v        show version"
+    echo "  cd -h        show this help"
+    echo ""
+    echo "Environment Variables:"
+    echo "  FUZZYCD_HISTORY_FILE"
+    echo "    Path to history file [default: ~/.fuzzycd-history"
+    echo ""
+    echo "  FUZZYCD_MODE"
+    echo "    Set mode to one of (default, non-interactive, no-preview)"
+    echo ""
+    echo "Interactive Keyboard Bindings:"
+    echo "  Del"
+    echo "    Delete selected directory from history"
+  }
+
+  _fzcd_handle_command() {
+    if _fzcd_unhandled_command "$@"; then
+      _fzcd_chdir "$@"
+    elif _fzcd_is_dirname "$1"; then
+      _fzcd_chdir "$1"
+    else    
+      _fzcd_chdir_fzf "$@"
+    fi
+  }
+
+  _fzcd_run() {
+    [[ -f "$histfile" ]] || _fzcd_create_histfile
+
+    case "$1" in
+      "-l" ) _fzcd_chdir_fzf ;;
+      "-v" ) _fzcd_show_version ;;
+      "-e" ) _fzcd_edit_histfile ;;
+      "-s" ) _fzcd_show_histfile ;;
+      "-d" ) shift ; _fzcd_delete_dir "$@" ;;
+      "-h" ) _fzcd_show_usage ;;
+      *    ) _fzcd_handle_command "$@" ;;
+    esac
+  }  
+
+  _fzcd_run "$@"
+}
+
+# shellcheck disable=SC2015
+(return 0 2>/dev/null) && is_sourced=1 || fuzzycd_run "$@"
+
+if [[ -n "$is_sourced" ]]; then
+  # If not running interactively, don't do anything
+  # Bypass by setting FUZZYCD_TTY_FORCE
+  if [[ -z "$FUZZYCD_TTY_FORCE" ]]; then
+    case $- in
+      *i*) ;;
+      *) return;;
+    esac
+  fi
+
+  unalias cd 2> /dev/null || true
+  cd() {
+    fuzzycd_run "$@";
+  }
+fi

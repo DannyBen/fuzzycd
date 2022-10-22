@@ -5,10 +5,11 @@ export APPROVALS_DIR="$PWD/approvals"
 source approvals.bash
 
 basedir="$PWD"
-source ../fuzzy-cd
+source ../fuzzycd
 export FUZZYCD_HISTORY_FILE="$PWD/tmp/histfile"
 rm -f "$FUZZYCD_HISTORY_FILE"
 mkdir -p tmp/one/two
+mkdir -p "$HOME/.fuzzycd"
 
 context "when the shell is non-interactive"
 
@@ -19,7 +20,7 @@ context "when the shell is non-interactive"
 context "when the shell is interactive"
 
   export FUZZYCD_TTY_FORCE=1
-  source ../fuzzy-cd || return 0
+  source ../fuzzycd
 
   describe "cd is a function"
     approve "type -t cd" "type_function"
@@ -41,8 +42,10 @@ context "when the shell is interactive"
 
 
 context "when the history file contains some entries"
+
   rm -f "$FUZZYCD_HISTORY_FILE"  
   cd /usr/local/bin > /dev/null
+  cd /usr/local/lib > /dev/null
   cd /etc > /dev/null
   EDITOR="cat"
 
@@ -52,6 +55,29 @@ context "when the history file contains some entries"
   describe "cd -e opens the history file"
     approve "cd -e"
 
+  describe "cd -d DIR removes DIR from history"
+    approve "cd -d /etc"
+    approve "cd -s" "cd_s_after_delete"
+
+  describe "cd -d removes current directory from history"
+    cd /usr/local/lib
+    approve "cd -d"
+    approve "cd -s" "cd_s_after_delete2"
+
   cd "$basedir"
   rm -f "$FUZZYCD_HISTORY_FILE"  
 
+
+context "when FUZZYCD_MODE=non-interactive"
+
+  export FUZZYCD_MODE=non-interactive
+  rm -f "$FUZZYCD_HISTORY_FILE"
+  cd /usr/local/bin > /dev/null
+  cd /usr/local/lib > /dev/null
+
+  describe "cd with a fuzzy string goes to bes match"
+    approve "cd localb"
+
+  cd "$basedir"
+  rm -f "$FUZZYCD_HISTORY_FILE"
+  unset FUZZYCD_MODE
