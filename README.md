@@ -6,6 +6,7 @@
 A bash function that patches the native `cd` to allow changing directories
 instantly using a fuzzy search.
 
+![](/demo/cast.gif)
 
 ## Features
 
@@ -22,7 +23,7 @@ instantly using a fuzzy search.
 
 ## Prerequisites
 
-Fuzzy CD requires [fzf].
+Fuzzy CD requires a recent version of [fzf].
 
 
 ## Installation
