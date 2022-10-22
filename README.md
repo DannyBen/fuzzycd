@@ -10,7 +10,7 @@ instantly using a fuzzy search
 
 # Fuzzy CD
 
-![Version](https://img.shields.io/badge/version-0.1.2-blue.svg)
+![Version](https://img.shields.io/badge/version-0.2.0-blue.svg)
 [![Build Status](https://github.com/DannyBen/fuzzycd/workflows/Test/badge.svg)](https://github.com/DannyBen/fuzzycd/actions?query=workflow%3ATest)
 
 ## Features
