@@ -5,7 +5,7 @@ on:
 
 jobs:
   test:
-    name: Run test suite on Ubuntu
+    name: Approvals on Ubuntu
     runs-on: ubuntu-22.04
     steps:
     - name: Checkout code
@@ -20,7 +20,7 @@ jobs:
       run: test/approve
 
   test_mac:
-    name: Run test suite on Mac
+    name: Approvals on macOS
     runs-on: macos-latest
     steps:
     - name: Checkout code
