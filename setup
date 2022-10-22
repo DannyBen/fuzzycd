@@ -9,7 +9,7 @@ fuzzy_cd_setup() {
       echo "=== Skipping $file"
     else
       echo "=== Amending $file"
-      printf "source /usr/local/bin\n" >> "$file"
+      printf "source /usr/local/bin/fuzzycd\n" >> "$file"
     fi
     patched="yes"
   }
