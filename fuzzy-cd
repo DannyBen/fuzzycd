@@ -34,7 +34,12 @@ cd() {
 
   _fzcd_run_fzf() {
     # shellcheck disable=SC2145
+    
+    # interactive-on-multi
     fzf --query="$@" --select-1 --exit-0 --info=hidden --prompt="➜ cd " --preview='ls {}' --preview-window="border-left"
+    
+    # non-interactive
+    # fzf --filter "$@" --exit-0 | head -1
   }
 
   _fzcd_dir_search() {
@@ -95,6 +100,10 @@ cd() {
     echo "  cd -d [DIR]  remove current or specified directory from history"
     echo "  cd -v        show version"
     echo "  cd -h        show this help"
+    echo ""
+    echo "Environment Variables:"
+    echo "  FUZZYCD_HISTORY_FILE"
+    echo "    Path to history file [default: ~/.fuzzy-cd/history"
   }
 
   _fzcd_handle_command() {

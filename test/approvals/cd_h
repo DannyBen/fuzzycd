@@ -9,3 +9,7 @@ Usage:
   cd -d [DIR]  remove current or specified directory from history
   cd -v        show version
   cd -h        show this help
+
+Environment Variables:
+  FUZZYCD_HISTORY_FILE
+    Path to history file [default: ~/.fuzzy-cd/history
