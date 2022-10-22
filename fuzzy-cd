@@ -84,7 +84,7 @@ cd() {
     dir="${1:-$PWD}"
     grep -v "$dir" "$histfile" > "$HOME/.fuzzy-cd/history.tmp" &&\
       cp "$HOME/.fuzzy-cd/history.tmp" "$histfile" &&\
-      rm "$HOME/.fuzzy-cd/history.tmp" &&\
+      rm -f "$HOME/.fuzzy-cd/history.tmp" &&\
       echo "deleted $dir"
   }
 
