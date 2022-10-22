@@ -1,4 +1,4 @@
-fuzzy-cd 0.1.2
+fuzzycd 0.2.0
 
 Usage:
   cd DIR       change working directory
@@ -12,7 +12,11 @@ Usage:
 
 Environment Variables:
   FUZZYCD_HISTORY_FILE
-    Path to history file [default: ~/.fuzzy-cd/history
+    Path to history file [default: ~/.fuzzycd-history
 
   FUZZYCD_MODE
     Set mode to one of (default, non-interactive, no-preview)
+
+Interactive Keyboard Bindings:
+  Del
+    Delete selected directory from history

@@ -15,7 +15,7 @@ jobs:
     # - name: Setup tmate session
     #   uses: mxschmitt/action-tmate@v2
     - name: Run shellcheck tests
-      run: shellcheck fuzzy-cd setup
+      run: shellcheck fuzzycd setup
     - name: Run approval tests
       run: test/approve
 

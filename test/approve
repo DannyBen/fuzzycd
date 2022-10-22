@@ -5,11 +5,11 @@ export APPROVALS_DIR="$PWD/approvals"
 source approvals.bash
 
 basedir="$PWD"
-source ../fuzzy-cd
+source ../fuzzycd
 export FUZZYCD_HISTORY_FILE="$PWD/tmp/histfile"
 rm -f "$FUZZYCD_HISTORY_FILE"
 mkdir -p tmp/one/two
-mkdir -p "$HOME/.fuzzy-cd"
+mkdir -p "$HOME/.fuzzycd"
 
 context "when the shell is non-interactive"
 
@@ -20,7 +20,7 @@ context "when the shell is non-interactive"
 context "when the shell is interactive"
 
   export FUZZYCD_TTY_FORCE=1
-  source ../fuzzy-cd || return 0
+  source ../fuzzycd
 
   describe "cd is a function"
     approve "type -t cd" "type_function"
@@ -68,7 +68,7 @@ context "when the history file contains some entries"
   rm -f "$FUZZYCD_HISTORY_FILE"  
 
 
-context "when the FUZZYCD_MODE=non-interactive"
+context "when FUZZYCD_MODE=non-interactive"
 
   export FUZZYCD_MODE=non-interactive
   rm -f "$FUZZYCD_HISTORY_FILE"
@@ -81,4 +81,3 @@ context "when the FUZZYCD_MODE=non-interactive"
   cd "$basedir"
   rm -f "$FUZZYCD_HISTORY_FILE"
   unset FUZZYCD_MODE
-

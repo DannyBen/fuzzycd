@@ -5,19 +5,26 @@ fuzzy_cd_setup() {
 
   patch_file() {
     file="$1"
-    if grep -q .fuzzy-cd/fuzzy-cd "$file"; then
+    if grep -q fuzzycd "$file"; then
       echo "=== Skipping $file"
     else
       echo "=== Amending $file"
-      printf "source ~/.fuzzy-cd/fuzzy-cd\n" >> "$file"
+      printf "source /usr/local/bin\n" >> "$file"
     fi
     patched="yes"
   }
 
   download_script() {
-    echo "=== Saving fuzzy-cd to ~/.fuzzy-cd/"
-    mkdir -p "$HOME/.fuzzy-cd"
-    curl -s https://raw.githubusercontent.com/DannyBen/fuzzy-cd/master/fuzzy-cd > "$HOME/.fuzzy-cd/fuzzy-cd"
+    echo "=== Saving fuzzycd to /usr/local/bin"
+    
+    sudo=''
+    if [[ $EUID -ne 0 ]]; then
+      sudo='sudo'
+    fi
+
+    curl_command="curl -s https://raw.githubusercontent.com/DannyBen/fuzzycd/master/fuzzycd > /usr/local/bin/fuzzycd"
+    $sudo bash -c "$curl_command"
+    $sudo chmod a+x /usr/local/bin/fuzzycd
   }
 
   patch_startup_files() {
@@ -40,6 +47,7 @@ fuzzy_cd_setup() {
   download_script
   patch_startup_files
   show_exit_message
+  fuzzycd -v
 }
 
 fuzzy_cd_setup

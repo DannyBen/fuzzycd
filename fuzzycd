@@ -1,18 +1,8 @@
 #!/usr/bin/env bash
 
-# If not running interactively, don't do anything
-# Bypass by setting FUZZYCD_TTY_FORCE
-if [[ -z "$FUZZYCD_TTY_FORCE" ]]; then
-  case $- in
-    *i*) ;;
-    *) return;;
-  esac
-fi
-
-unalias cd 2> /dev/null
-cd() {
-  local version="0.1.2"
-  local histfile=${FUZZYCD_HISTORY_FILE:-"$HOME/.fuzzy-cd/history"}
+fuzzycd_run() {
+  local version="0.2.0"
+  local histfile=${FUZZYCD_HISTORY_FILE:-"$HOME/.fuzzycd-history"}
 
   _fzcd_is_dirname() {
     if [[ -d "$1" ]]; then
@@ -41,11 +31,11 @@ cd() {
         ;;
 
       "no-preview" )
-        fzf --query="$@" --select-1 --exit-0 --info=hidden --prompt="➜ cd "
+        fzf --query="$@" --bind="del:execute-silent(fuzzycd -d {})+reload(fuzzycd -s)" --select-1 --exit-0 --info=hidden --prompt="➜ cd "
         ;;
 
       * )
-        fzf --query="$@" --select-1 --exit-0 --info=hidden --prompt="➜ cd " --preview='ls {}' --preview-window="border-left"
+        fzf --query="$@" --bind="del:execute-silent(fuzzycd -d {})+reload(fuzzycd -s)" --select-1 --exit-0 --info=hidden --prompt="➜ cd " --preview='ls {}' --preview-window="border-left"
         ;;
     esac
   }
@@ -85,14 +75,14 @@ cd() {
   }
 
   _fzcd_show_version() {
-    echo "fuzzy-cd $version"
+    echo "fuzzycd $version"
   }
 
   _fzcd_delete_dir() {
     dir="${1:-$PWD}"
-    grep -v "$dir" "$histfile" > "$HOME/.fuzzy-cd/history.tmp"
-    cp "$HOME/.fuzzy-cd/history.tmp" "$histfile"
-    rm -f "$HOME/.fuzzy-cd/history.tmp"
+    grep -Fxv "$dir" "$histfile" > "$HOME/.fuzzycd-history.tmp"
+    cp "$HOME/.fuzzycd-history.tmp" "$histfile"
+    rm -f "$HOME/.fuzzycd-history.tmp"
     echo "deleted $dir"
   }
 
@@ -111,10 +101,14 @@ cd() {
     echo ""
     echo "Environment Variables:"
     echo "  FUZZYCD_HISTORY_FILE"
-    echo "    Path to history file [default: ~/.fuzzy-cd/history"
+    echo "    Path to history file [default: ~/.fuzzycd-history"
     echo ""
     echo "  FUZZYCD_MODE"
     echo "    Set mode to one of (default, non-interactive, no-preview)"
+    echo ""
+    echo "Interactive Keyboard Bindings:"
+    echo "  Del"
+    echo "    Delete selected directory from history"
   }
 
   _fzcd_handle_command() {
@@ -143,3 +137,22 @@ cd() {
 
   _fzcd_run "$@"
 }
+
+# shellcheck disable=SC2015
+(return 0 2>/dev/null) && is_sourced=1 || fuzzycd_run "$@"
+
+if [[ -n "$is_sourced" ]]; then
+  # If not running interactively, don't do anything
+  # Bypass by setting FUZZYCD_TTY_FORCE
+  if [[ -z "$FUZZYCD_TTY_FORCE" ]]; then
+    case $- in
+      *i*) ;;
+      *) return;;
+    esac
+  fi
+
+  unalias cd 2> /dev/null || true
+  cd() {
+    fuzzycd_run "$@";
+  }
+fi
