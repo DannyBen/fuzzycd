@@ -53,6 +53,44 @@ You are encouraged to inspect the [setup script](setup) before running.
 ## Usage
 
 
+<details>
+  <summary>Show Usage Patterns</summary>
+
+  ```
+  $ cd -h
+
+  fuzzycd 0.2.0
+
+  Usage:
+    cd DIR       change working directory
+    cd SEARCH    change working directory or show selection menu
+    cd -l        list history with fzf
+    cd -e        edit history file
+    cd -s        show history file
+    cd -d [DIR]  remove current or specified directory from history
+    cd -v        show version
+    cd -h        show this help
+
+  Environment Variables:
+    FUZZYCD_HISTORY_FILE
+      Path to history file (default: ~/.fuzzycd-history)
+
+    FUZZYCD_MODE
+      Set operation mode (one of: m, i, p)
+        m = minimal, non interactive, always cd to best match
+        i = interactive when needed, no preview
+        p = interactive when needed, with ls preview (default)
+
+  Interactive Keyboard Bindings:
+    Del
+      Delete selected directory from history
+  ```
+
+</details>
+
+---
+
+
 First, verify that Fuzzy CD is properly installed by running:
 
 ```shell
@@ -74,8 +112,9 @@ Use `cd` with a string that is *not* a directory. If exactly one directory in
 the history matches this string, you will instantly `cd` to it as usual.
 
 If more than one directories match, you will be prompted to choose one of the
-matching directories.
-    
+matching directories when running in interactive mode (default), or you will
+`cd` to the best match when running in non-interactive mode.
+
 
 ## Contributing / Support
 
