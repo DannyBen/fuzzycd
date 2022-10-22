@@ -6,5 +6,6 @@ Usage:
   cd -l        list history with fzf
   cd -e        edit history file
   cd -s        show history file
+  cd -d [DIR]  remove current or specified directory from history
   cd -v        show version
   cd -h        show this help

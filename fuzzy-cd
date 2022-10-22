@@ -57,6 +57,7 @@ cd() {
     target=$(_fzcd_dir_search "$@")
     if [[ -n $target ]]; then
       _fzcd_chdir "$target"
+      echo "$target"
     else
       _fzcd_chdir "$@"
     fi
@@ -76,7 +77,10 @@ cd() {
 
   _fzcd_delete_dir() {
     dir="${1:-$PWD}"
-    echo $dir
+    grep -v "$dir" "$histfile" > "$HOME/.fuzzy-cd/history.tmp" &&\
+      cp "$HOME/.fuzzy-cd/history.tmp" "$histfile" &&\
+      rm "$HOME/.fuzzy-cd/history.tmp" &&\
+      echo "deleted $dir"
   }
 
   _fzcd_show_usage() {
@@ -88,6 +92,7 @@ cd() {
     echo "  cd -l        list history with fzf"
     echo "  cd -e        edit history file"
     echo "  cd -s        show history file"
+    echo "  cd -d [DIR]  remove current or specified directory from history"
     echo "  cd -v        show version"
     echo "  cd -h        show this help"
   }
@@ -110,7 +115,7 @@ cd() {
       "-v" ) _fzcd_show_version ;;
       "-e" ) _fzcd_edit_histfile ;;
       "-s" ) _fzcd_show_histfile ;;
-      # "-d" ) _fzcd_delete_dir ;;
+      "-d" ) shift ; _fzcd_delete_dir "$@" ;;
       "-h" ) _fzcd_show_usage ;;
       *    ) _fzcd_handle_command "$@" ;;
     esac
