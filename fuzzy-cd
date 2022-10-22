@@ -71,7 +71,7 @@ cd() {
     if [[ -n $target ]]; then
       _fzcd_chdir "$target"
       echo "$target"
-    elif [[ -n "$@" ]]; then
+    elif [[ -n "$1" ]]; then
       _fzcd_chdir "$@"
     fi
   }
