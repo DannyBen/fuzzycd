@@ -11,7 +11,7 @@ fi
 
 unalias cd 2> /dev/null
 cd() {
-  local version="0.1.1"
+  local version="0.1.2"
   local histfile=${FUZZYCD_HISTORY_FILE:-"$HOME/.fuzzy-cd-history"}
 
   _fzcd_is_dirname() {
