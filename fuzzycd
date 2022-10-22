@@ -24,7 +24,7 @@ fuzzycd_run() {
 
   _fzcd_run_fzf() {
     # shellcheck disable=SC2145
-    declare -a opts=(--query="$@" --bind="del:execute-silent(fuzzycd -d {})+reload(fuzzycd -s)" --scheme=path --select-1 --exit-0 --info=hidden --prompt="➜ cd ")
+    declare -a opts=(--query="$@" --bind="del:execute-silent(fuzzycd -d {})+reload(fuzzycd -s)" --select-1 --exit-0 --info=hidden --prompt="➜ cd ")
     
     case "$FUZZYCD_MODE" in
       "m" )
