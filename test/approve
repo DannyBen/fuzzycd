@@ -68,14 +68,14 @@ context "when the history file contains some entries"
   rm -f "$FUZZYCD_HISTORY_FILE"  
 
 
-context "when FUZZYCD_MODE=non-interactive"
+context "when FUZZYCD_MODE=m"
 
-  export FUZZYCD_MODE=non-interactive
+  export FUZZYCD_MODE=m
   rm -f "$FUZZYCD_HISTORY_FILE"
   cd /usr/local/bin > /dev/null
   cd /usr/local/lib > /dev/null
 
-  describe "cd with a fuzzy string goes to bes match"
+  describe "cd with a fuzzy string goes to best match"
     approve "cd localb"
 
   cd "$basedir"
