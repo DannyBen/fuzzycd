@@ -53,8 +53,7 @@ F12::
 
   Type("exit")
   Type("unset FUZZYCD_HISTORY_FILE")
-  ; Type("cat demo/cast.json | svg-term --out demo/cast.svg --window")
-  Type("agg --font-size 20 demo/cast.json demo/cast.gif")
+  Type("agg --font-size 16 demo/cast.json demo/cast.gif")
   Type("{#} DONE")
 Return
 
