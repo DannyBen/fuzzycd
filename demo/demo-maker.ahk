@@ -10,7 +10,7 @@ SetkeyDelay 0, 50
 ;   2. Starting point should be the root fuzzycd directory
 ;   3. This is the prompt we are using. Put it in ~/.bashrc.d/prompt.bashrc
 ;      PS1="\n\[\e[0;35m\]\h \[\e[1;34m\]\w \[\e[1;32m\]➜\[\e[0m\] "
-;   4. Recorded in a full tmux panel
+;   4. Recorded in a half tmux panel
 ;
 
 Outfile := "cast.svg"
@@ -30,7 +30,11 @@ F12::
   Type("rm -f /tmp/history")
   Type("rm demo/cast.json {;} asciinema rec demo/cast.json")
 
-  Type("cd -h")
+  Type("cd -h |most")
+  Sleep 300
+  SetKeyDelay 200
+  Send {Down 14}q
+  SetkeyDelay 0, 50
   Type("{#} First, we visit directories to add to history")
   Type("cd test")
   Type("cd approvals")
@@ -53,7 +57,7 @@ F12::
 
   Type("exit")
   Type("unset FUZZYCD_HISTORY_FILE")
-  Type("agg --font-size 16 demo/cast.json demo/cast.gif")
+  Type("agg --font-size 20 demo/cast.json demo/cast.gif")
   Type("{#} DONE")
 Return
 
