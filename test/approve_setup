@@ -14,7 +14,7 @@ export FUZZYCD_TTY_FORCE=1
 #   a: source our file directly, which has a bypass via FUZZYCD_TTY_FORCE
 #   b: verify that ~/.bashrc contains the source directive
 #
-source /usr/local/bin/fuzzycd || return 0
+source /usr/local/bin/fuzzycd
 
 describe "cd is a function"
   [[ "$(type -t cd)" == "function" ]] || fail "Expected function got $(type -t cd)"
