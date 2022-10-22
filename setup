@@ -47,7 +47,6 @@ fuzzy_cd_setup() {
   download_script
   patch_startup_files
   show_exit_message
-  fuzzycd -v
 }
 
 fuzzy_cd_setup
