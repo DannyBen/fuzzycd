@@ -63,7 +63,9 @@ Now, you can use `cd` normally to change to any directory. These directories
 will be remembered in a history file. You can view this file by running:
 
 ```shell
-$ cat ~/.fuzzy-cd-history
+$ cd -s
+# or
+$ cat ~/.fuzzy-cd/history
 ```
 
 ### Fuzzy search

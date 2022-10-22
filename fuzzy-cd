@@ -12,7 +12,7 @@ fi
 unalias cd 2> /dev/null
 cd() {
   local version="0.1.2"
-  local histfile=${FUZZYCD_HISTORY_FILE:-"$HOME/.fuzzy-cd-history"}
+  local histfile=${FUZZYCD_HISTORY_FILE:-"$HOME/.fuzzy-cd/history"}
 
   _fzcd_is_dirname() {
     if [[ -d "$1" ]]; then
@@ -45,6 +45,10 @@ cd() {
     grep -qxF "$PWD" "$histfile" || echo "$PWD" >> "$histfile"
   }
 
+  _fzcd_create_histfile() {
+    mkdir -p "$(dirname "$histfile")" && touch "$histfile";
+  }
+
   _fzcd_chdir() {
     builtin cd "$@" && _fzcd_remember_me
   }
@@ -68,6 +72,11 @@ cd() {
 
   _fzcd_show_version() {
     echo "fuzzy-cd $version"
+  }
+
+  _fzcd_delete_dir() {
+    dir="${1:-$PWD}"
+    echo $dir
   }
 
   _fzcd_show_usage() {
@@ -94,13 +103,14 @@ cd() {
   }
 
   _fzcd_run() {
-    [[ -f "$histfile" ]] || touch "$histfile"
+    [[ -f "$histfile" ]] || _fzcd_create_histfile
 
     case "$1" in
       "-l" ) _fzcd_chdir_fzf ;;
       "-v" ) _fzcd_show_version ;;
       "-e" ) _fzcd_edit_histfile ;;
       "-s" ) _fzcd_show_histfile ;;
+      # "-d" ) _fzcd_delete_dir ;;
       "-h" ) _fzcd_show_usage ;;
       *    ) _fzcd_handle_command "$@" ;;
     esac
