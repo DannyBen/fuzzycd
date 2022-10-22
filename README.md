@@ -1,12 +1,19 @@
+<div align='center'>
+<img src='logo/logo-full.png' width=280>
+
+---
+
+A bash function that patches the native `cd` to allow changing directories
+instantly using a fuzzy search
+
+![](/demo/cast.gif)
+
+</div>
+
 # Fuzzy CD
 
 ![Version](https://img.shields.io/badge/version-0.1.2-blue.svg)
 [![Build Status](https://github.com/DannyBen/fuzzy-cd/workflows/Test/badge.svg)](https://github.com/DannyBen/fuzzy-cd/actions?query=workflow%3ATest)
-
-A bash function that patches the native `cd` to allow changing directories
-instantly using a fuzzy search.
-
-![](/demo/cast.gif)
 
 ## Features
 
