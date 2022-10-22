@@ -24,14 +24,14 @@ fuzzycd_run() {
 
   _fzcd_run_fzf() {
     # shellcheck disable=SC2145
-    opts=(--query="$@" --bind="del:execute-silent(fuzzycd -d {})+reload(fuzzycd -s)" --scheme=path --select-1 --exit-0 --info=hidden --prompt="➜ cd ")
+    declare -a opts=(--query="$@" --bind="del:execute-silent(fuzzycd -d {})+reload(fuzzycd -s)" --scheme=path --select-1 --exit-0 --info=hidden --prompt="➜ cd ")
     
     case "$FUZZYCD_MODE" in
-      "non-interactive" )
+      "m" )
         fzf --filter "$@" --exit-0 | head -1
         ;;
 
-      "no-preview" )
+      "i" )
         fzf "${opts[@]}"
         ;;
 
@@ -102,10 +102,13 @@ fuzzycd_run() {
     echo ""
     echo "Environment Variables:"
     echo "  FUZZYCD_HISTORY_FILE"
-    echo "    Path to history file [default: ~/.fuzzycd-history]"
+    echo "    Path to history file (default: ~/.fuzzycd-history)"
     echo ""
     echo "  FUZZYCD_MODE"
-    echo "    Set operation mode (default|non-interactive|no-preview)"
+    echo "    Set operation mode (one of: m, i, p)"
+    echo "      m = minimal, non interactive, always cd to best match"
+    echo "      i = interactive when needed, no preview"
+    echo "      p = interactive when needed, with ls preview (default)"
     echo ""
     echo "Interactive Keyboard Bindings:"
     echo "  Del"
@@ -126,7 +129,7 @@ fuzzycd_run() {
     [[ -f "$histfile" ]] || _fzcd_create_histfile
 
     case "$1" in
-      "-l" ) FUZZYCD_MODE=default _fzcd_chdir_fzf ;;
+      "-l" ) FUZZYCD_MODE=ip _fzcd_chdir_fzf ;;
       "-v" ) _fzcd_show_version ;;
       "-e" ) _fzcd_edit_histfile ;;
       "-s" ) _fzcd_show_histfile ;;
