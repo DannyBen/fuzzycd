@@ -35,11 +35,19 @@ cd() {
   _fzcd_run_fzf() {
     # shellcheck disable=SC2145
     
-    # interactive-on-multi
-    fzf --query="$@" --select-1 --exit-0 --info=hidden --prompt="➜ cd " --preview='ls {}' --preview-window="border-left"
-    
-    # non-interactive
-    # fzf --filter "$@" --exit-0 | head -1
+    case "$FUZZYCD_MODE" in
+      "-interactive" )
+        fzf --filter "$@" --exit-0 | head -1
+        ;;
+
+      "-preview" )
+        fzf --query="$@" --select-1 --exit-0 --info=hidden --prompt="➜ cd "
+        ;;
+
+      * )
+        fzf --query="$@" --select-1 --exit-0 --info=hidden --prompt="➜ cd " --preview='ls {}' --preview-window="border-left"
+        ;;
+    esac
   }
 
   _fzcd_dir_search() {
@@ -104,6 +112,9 @@ cd() {
     echo "Environment Variables:"
     echo "  FUZZYCD_HISTORY_FILE"
     echo "    Path to history file [default: ~/.fuzzy-cd/history"
+    echo ""
+    echo "  FUZZYCD_MODE"
+    echo "    Set mode to one of (default, non-interactive, no-preview)"
   }
 
   _fzcd_handle_command() {

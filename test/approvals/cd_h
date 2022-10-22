@@ -13,3 +13,6 @@ Usage:
 Environment Variables:
   FUZZYCD_HISTORY_FILE
     Path to history file [default: ~/.fuzzy-cd/history
+
+  FUZZYCD_MODE
+    Set mode to one of (default, non-interactive, no-preview)
