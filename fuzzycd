@@ -24,6 +24,7 @@ fuzzycd_run() {
 
   _fzcd_run_fzf() {
     # shellcheck disable=SC2145
+    opts=(--query="$@" --bind="del:execute-silent(fuzzycd -d {})+reload(fuzzycd -s)" --scheme=path --select-1 --exit-0 --info=hidden --prompt="➜ cd ")
     
     case "$FUZZYCD_MODE" in
       "non-interactive" )
@@ -31,11 +32,11 @@ fuzzycd_run() {
         ;;
 
       "no-preview" )
-        fzf --query="$@" --bind="del:execute-silent(fuzzycd -d {})+reload(fuzzycd -s)" --select-1 --exit-0 --info=hidden --prompt="➜ cd "
+        fzf "${opts[@]}"
         ;;
 
       * )
-        fzf --query="$@" --bind="del:execute-silent(fuzzycd -d {})+reload(fuzzycd -s)" --select-1 --exit-0 --info=hidden --prompt="➜ cd " --preview='ls {}' --preview-window="border-left"
+        fzf "${opts[@]}" --preview='ls {}' --preview-window="border-left"
         ;;
     esac
   }
@@ -125,7 +126,7 @@ fuzzycd_run() {
     [[ -f "$histfile" ]] || _fzcd_create_histfile
 
     case "$1" in
-      "-l" ) _fzcd_chdir_fzf ;;
+      "-l" ) FUZZYCD_MODE=default _fzcd_chdir_fzf ;;
       "-v" ) _fzcd_show_version ;;
       "-e" ) _fzcd_edit_histfile ;;
       "-s" ) _fzcd_show_histfile ;;
