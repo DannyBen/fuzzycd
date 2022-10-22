@@ -5,7 +5,7 @@ on:
 
 jobs:
   test:
-    name: Run test suite
+    name: Run test suite on Ubuntu
     runs-on: ubuntu-22.04
     steps:
     - name: Checkout code
@@ -27,8 +27,6 @@ jobs:
       uses: actions/checkout@v2
     - name: Install fzf
       run: brew install fzf
-    - name: Run shellcheck tests
-      run: shellcheck fuzzycd setup
     - name: Run approval tests
       run: test/approve
 
