@@ -5,7 +5,7 @@ on:
 
 jobs:
   test:
-    name: Run test suite
+    name: Approvals on Ubuntu
     runs-on: ubuntu-22.04
     steps:
     - name: Checkout code
@@ -16,6 +16,17 @@ jobs:
     #   uses: mxschmitt/action-tmate@v2
     - name: Run shellcheck tests
       run: shellcheck fuzzycd setup
+    - name: Run approval tests
+      run: test/approve
+
+  test_mac:
+    name: Approvals on macOS
+    runs-on: macos-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install fzf
+      run: brew install fzf
     - name: Run approval tests
       run: test/approve
 
