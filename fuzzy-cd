@@ -82,11 +82,7 @@ cd() {
 
   _fzcd_delete_dir() {
     dir="${1:-$PWD}"
-
-    while read -r line; do
-      [[ "$line" != "$dir" ]] && echo "$line"
-    done <"$histfile" > "$HOME/.fuzzy-cd/history.tmp"
-
+    grep -v "$dir" "$histfile" > "$HOME/.fuzzy-cd/history.tmp"
     cp "$HOME/.fuzzy-cd/history.tmp" "$histfile"
     rm -f "$HOME/.fuzzy-cd/history.tmp"
     echo "deleted $dir"

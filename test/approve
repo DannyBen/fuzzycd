@@ -9,6 +9,7 @@ source ../fuzzy-cd
 export FUZZYCD_HISTORY_FILE="$PWD/tmp/histfile"
 rm -f "$FUZZYCD_HISTORY_FILE"
 mkdir -p tmp/one/two
+mkdir -p "$HOME/.fuzzy-cd"
 
 context "when the shell is non-interactive"
 
