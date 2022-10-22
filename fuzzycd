@@ -104,7 +104,7 @@ fuzzycd_run() {
     echo "    Path to history file [default: ~/.fuzzycd-history"
     echo ""
     echo "  FUZZYCD_MODE"
-    echo "    Set mode to one of (default, non-interactive, no-preview)"
+    echo "    Set operation mode (default, non-interactive, no-preview)"
     echo ""
     echo "Interactive Keyboard Bindings:"
     echo "  Del"

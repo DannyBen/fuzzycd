@@ -15,7 +15,7 @@ Environment Variables:
     Path to history file [default: ~/.fuzzycd-history
 
   FUZZYCD_MODE
-    Set mode to one of (default, non-interactive, no-preview)
+    Set operation mode (default, non-interactive, no-preview)
 
 Interactive Keyboard Bindings:
   Del
