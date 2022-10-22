@@ -1,8 +1,6 @@
 <div align='center'>
 <img src='logo/logo-full.png' width=280>
 
----
-
 A bash function that patches the native `cd` to allow changing directories
 instantly using a fuzzy search
 
