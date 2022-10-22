@@ -96,7 +96,7 @@ fuzzycd_run() {
     echo "  cd -l        list history with fzf"
     echo "  cd -e        edit history file"
     echo "  cd -s        show history file"
-    echo "  cd -d [DIR]  remove current or specified directory from history"
+    echo "  cd -d [DIR]  delete current or specified directory from history"
     echo "  cd -v        show version"
     echo "  cd -h        show this help"
     echo ""

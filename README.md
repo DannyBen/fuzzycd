@@ -67,7 +67,7 @@ You are encouraged to inspect the [setup script](setup) before running.
     cd -l        list history with fzf
     cd -e        edit history file
     cd -s        show history file
-    cd -d [DIR]  remove current or specified directory from history
+    cd -d [DIR]  delete current or specified directory from history
     cd -v        show version
     cd -h        show this help
 
