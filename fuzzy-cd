@@ -36,11 +36,11 @@ cd() {
     # shellcheck disable=SC2145
     
     case "$FUZZYCD_MODE" in
-      "-interactive" )
+      "non-interactive" )
         fzf --filter "$@" --exit-0 | head -1
         ;;
 
-      "-preview" )
+      "no-preview" )
         fzf --query="$@" --select-1 --exit-0 --info=hidden --prompt="➜ cd "
         ;;
 
