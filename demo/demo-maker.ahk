@@ -10,7 +10,7 @@ SetkeyDelay 0, 50
 ;   2. Starting point should be the root fuzzycd directory
 ;   3. This is the prompt we are using. Put it in ~/.bashrc.d/prompt.bashrc
 ;      PS1="\n\[\e[0;35m\]\h \[\e[1;34m\]\w \[\e[1;32m\]➜\[\e[0m\] "
-;   4. Recorded in a half tmux panel
+;   4. Recorded in a full tmux panel
 ;
 
 Outfile := "cast.svg"
