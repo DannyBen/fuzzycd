@@ -129,7 +129,7 @@ fuzzycd_run() {
     [[ -f "$histfile" ]] || _fzcd_create_histfile
 
     case "$1" in
-      "-l" ) FUZZYCD_MODE=ip _fzcd_chdir_fzf ;;
+      "-l" ) FUZZYCD_MODE=i _fzcd_chdir_fzf ;;
       "-v" ) _fzcd_show_version ;;
       "-e" ) _fzcd_edit_histfile ;;
       "-s" ) _fzcd_show_histfile ;;
