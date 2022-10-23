@@ -21,9 +21,9 @@ instantly using a fuzzy search
 - Allows changing directory to any directory from the history that matches the
   input fuzzy search (unless it matches an actual directory).
 - Shows available choices, with `ls` preview, when there are more than one
-  matches.
+  matches (optional).
 - Does not override the builtin `cd` when running non-interactively.
-- Adds `cd -l` flag, to show the entire history with `ls` preview.
+- Adds flags such as `cd -l` to view and manage the history.
 
 
 ## Prerequisites
@@ -114,6 +114,15 @@ the history matches this string, you will instantly `cd` to it as usual.
 If more than one directories match, you will be prompted to choose one of the
 matching directories when running in interactive mode (default), or you will
 `cd` to the best match when running in non-interactive mode.
+
+
+## Uninstall
+
+1. Remove the `source /usr/local/bin/fuzzycd` line from your startup script(s)
+   (`~/.bashrc` and/or `~/.zshrc`).
+2. Delete `/usr/local/bin/fuzzycd`.
+3. Optionally, delete the history file (`~/.fuzzycd-history`).
+4. Retsrat your session.
 
 
 ## Contributing / Support
