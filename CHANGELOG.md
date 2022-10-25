@@ -1,6 +1,14 @@
 Change Log
 ========================================
 
+v0.2.1 - 2022-10-25
+----------------------------------------
+
+- Fix 'cd -l' when FUZZYCD_MODE=non-interactive
+- Update FUZZYCD_MODE to a single letter: [m]inimal, [i]nteractive or [p]review
+- Automatically delete directories that no longer exist on cd
+
+
 v0.2.0 - 2022-10-22
 ----------------------------------------
 
