@@ -31,12 +31,12 @@ context "when the shell is interactive"
   describe "cd -v shows version"
     approve "cd -v"
 
-  describe "cd with a directory adds it to history"
+  describe "cd DIR adds it to history"
     cd tmp/one/two > /dev/null
     [[ $PWD == *tmp/one/two ]] || fail "Expected tmp/one/twp, got $PWD"
     grep -q one/two "$FUZZYCD_HISTORY_FILE" || fail "Expected history file to contain one/two"
 
-  describe "cd with a fuzzy string works"
+  describe "cd DIR with a fuzzy string works"
     cd ontwo > /dev/null
     [[ $PWD == *tmp/one/two ]] || fail "Expected tmp/one/twp, got $PWD"
 
@@ -66,6 +66,16 @@ context "when the history file contains some entries"
 
   cd "$basedir"
   rm -f "$FUZZYCD_HISTORY_FILE"  
+
+context "when the history file contains gone directories"
+
+  echo /usr/local/bin > "$FUZZYCD_HISTORY_FILE"
+  echo /no/such/dir >> "$FUZZYCD_HISTORY_FILE"
+
+  describe "cd DIR deletes the gone directory"
+    approve "cd suchdir" || true
+    expect_exit_code 1
+    approve "cat $FUZZYCD_HISTORY_FILE" "cat_histfile"
 
 
 context "when FUZZYCD_MODE=m"
