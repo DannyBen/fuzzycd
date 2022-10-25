@@ -75,7 +75,7 @@ context "when the history file contains gone directories"
   describe "cd DIR deletes the gone directory"
     approve "cd suchdir" || true
     expect_exit_code 1
-    approve "cat $FUZZYCD_HISTORY_FILE"
+    approve "cat $FUZZYCD_HISTORY_FILE" "cat_histfile"
 
 
 context "when FUZZYCD_MODE=m"
