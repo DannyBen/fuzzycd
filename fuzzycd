@@ -60,8 +60,14 @@ fuzzycd_run() {
   _fzcd_chdir_fzf() {
     target=$(_fzcd_dir_search "$@")
     if [[ -n $target ]]; then
-      _fzcd_chdir "$target"
-      echo "$target"
+      if [[ -d "$target" ]]; then
+        _fzcd_chdir "$target"
+        echo "$target"
+      else
+        echo "directory gone" >&2
+        _fzcd_delete_dir "$target" >&2
+        exit 1
+      fi
     elif [[ -n "$1" ]]; then
       _fzcd_chdir "$@"
     fi
