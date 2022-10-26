@@ -78,6 +78,17 @@ context "when the history file contains gone directories"
     approve "cat $FUZZYCD_HISTORY_FILE" "cat_histfile"
 
 
+context "when CDPATH contains entries"
+
+  echo /usr/local/bin > "$FUZZYCD_HISTORY_FILE"
+  export CDPATH=".:/usr:/etc"
+
+  describe "cd DIR prefers paths that are sub directories of a CDPATH path"
+    approve "cd local"
+
+  unset CDPATH
+
+
 context "when FUZZYCD_MODE=m"
 
   export FUZZYCD_MODE=m

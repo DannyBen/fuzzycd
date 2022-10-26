@@ -9,7 +9,7 @@ fuzzycd_run() {
       return 0
     
     elif [[ -n "$CDPATH" ]]; then
-      cdpath=("${CDPATH//:/ }")
+      IFS=':' read -ra cdpath <<< "$CDPATH"
       for path in "${cdpath[@]}"; do
         [[ -d "$path/$1" ]] && return 0
       done
