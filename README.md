@@ -10,7 +10,7 @@ instantly using a fuzzy search
 
 # Fuzzy CD
 
-![Version](https://img.shields.io/badge/version-0.2.1-blue.svg)
+![Version](https://img.shields.io/badge/version-0.2.2-blue.svg)
 [![Build Status](https://github.com/DannyBen/fuzzycd/workflows/Test/badge.svg)](https://github.com/DannyBen/fuzzycd/actions?query=workflow%3ATest)
 
 ## Features
@@ -59,7 +59,7 @@ You are encouraged to inspect the [setup script](setup) before running.
   ```
   $ cd -h
 
-  fuzzycd 0.2.1
+  fuzzycd 0.2.2
 
   Usage:
     cd DIR       change working directory
