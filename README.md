@@ -24,6 +24,7 @@ instantly using a fuzzy search
   matches (optional).
 - Does not override the builtin `cd` when running non-interactively.
 - Adds flags such as `cd -l` to view and manage the history.
+- Interactive menu is optional and can be disabled in favor of "cd to best match".
 
 
 ## Prerequisites
