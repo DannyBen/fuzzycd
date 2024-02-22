@@ -48,3 +48,11 @@ jobs:
     - name: Run setup approval tests
       run: test/approve_setup
 
+  shellcheck:
+    name: Shellcheck
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Run shellcheck tests
+      run: shellcheck setup fuzzycd && echo PASS
