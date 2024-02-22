@@ -6,10 +6,10 @@ on:
 jobs:
   test:
     name: Approvals on Ubuntu
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Install fzf
       run: sudo apt install -y fzf
     # - name: Setup tmate session
@@ -24,7 +24,7 @@ jobs:
     runs-on: macos-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Install fzf
       run: brew install fzf
     - name: Run approval tests
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Run setup approval tests
       run: test/approve_setup
 
@@ -44,7 +44,7 @@ jobs:
     runs-on: macos-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
     - name: Run setup approval tests
       run: test/approve_setup
 
