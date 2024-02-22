@@ -7,9 +7,9 @@ fuzzycd_run() {
   _fzcd_is_dirname() {
     if [[ -d "$1" ]]; then
       return 0
-    
+
     elif [[ -n "$CDPATH" ]]; then
-      IFS=':' read -ra cdpath <<< "$CDPATH"
+      IFS=':' read -ra cdpath <<<"$CDPATH"
       for path in "${cdpath[@]}"; do
         [[ -d "$path/$1" ]] && return 0
       done
@@ -25,32 +25,32 @@ fuzzycd_run() {
   _fzcd_run_fzf() {
     # shellcheck disable=SC2145
     declare -a opts=(--query="$@" --bind="del:execute-silent(fuzzycd -d {})+reload(fuzzycd -s)" --select-1 --exit-0 --info=hidden --prompt="$ cd ")
-    
+
     case "$FUZZYCD_MODE" in
-      "m" )
+      "m")
         fzf --filter "$@" --exit-0 | head -1
         ;;
 
-      "i" )
+      "i")
         fzf "${opts[@]}"
         ;;
 
-      * )
+      *)
         fzf "${opts[@]}" --preview='ls {}' --preview-window="border-left"
         ;;
     esac
   }
 
   _fzcd_dir_search() {
-    _fzcd_run_fzf "$@" < "$histfile"
+    _fzcd_run_fzf "$@" <"$histfile"
   }
 
   _fzcd_remember_me() {
-    grep -qxF "$PWD" "$histfile" || echo "$PWD" >> "$histfile"
+    grep -qxF "$PWD" "$histfile" || echo "$PWD" >>"$histfile"
   }
 
   _fzcd_create_histfile() {
-    mkdir -p "$(dirname "$histfile")" && touch "$histfile";
+    mkdir -p "$(dirname "$histfile")" && touch "$histfile"
   }
 
   _fzcd_chdir() {
@@ -87,7 +87,7 @@ fuzzycd_run() {
 
   _fzcd_delete_dir() {
     dir="${1:-$PWD}"
-    grep -Fxv "$dir" "$histfile" > "$HOME/.fuzzycd-history.tmp"
+    grep -Fxv "$dir" "$histfile" >"$HOME/.fuzzycd-history.tmp"
     cp "$HOME/.fuzzycd-history.tmp" "$histfile"
     rm -f "$HOME/.fuzzycd-history.tmp"
     echo "deleted $dir"
@@ -126,7 +126,7 @@ fuzzycd_run() {
       _fzcd_chdir "$@"
     elif _fzcd_is_dirname "$1"; then
       _fzcd_chdir "$1"
-    else    
+    else
       _fzcd_chdir_fzf "$@"
     fi
   }
@@ -135,15 +135,18 @@ fuzzycd_run() {
     [[ -f "$histfile" ]] || _fzcd_create_histfile
 
     case "$1" in
-      "-l" ) FUZZYCD_MODE=i _fzcd_chdir_fzf ;;
-      "-v" ) _fzcd_show_version ;;
-      "-e" ) _fzcd_edit_histfile ;;
-      "-s" ) _fzcd_show_histfile ;;
-      "-d" ) shift ; _fzcd_delete_dir "$@" ;;
-      "-h" ) _fzcd_show_usage ;;
-      *    ) _fzcd_handle_command "$@" ;;
+      "-l") FUZZYCD_MODE=i _fzcd_chdir_fzf ;;
+      "-v") _fzcd_show_version ;;
+      "-e") _fzcd_edit_histfile ;;
+      "-s") _fzcd_show_histfile ;;
+      "-d")
+        shift
+        _fzcd_delete_dir "$@"
+        ;;
+      "-h") _fzcd_show_usage ;;
+      *) _fzcd_handle_command "$@" ;;
     esac
-  }  
+  }
 
   _fzcd_run "$@"
 }
@@ -157,12 +160,12 @@ if [[ -n "$is_sourced" ]]; then
   if [[ -z "$FUZZYCD_TTY_FORCE" ]]; then
     case $- in
       *i*) ;;
-      *) return;;
+      *) return ;;
     esac
   fi
 
-  unalias cd 2> /dev/null || true
+  unalias cd 2>/dev/null || true
   cd() {
-    fuzzycd_run "$@";
+    fuzzycd_run "$@"
   }
 fi

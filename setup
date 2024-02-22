@@ -9,14 +9,14 @@ fuzzy_cd_setup() {
       echo "=== Skipping $file"
     else
       echo "=== Amending $file"
-      printf "source /usr/local/bin/fuzzycd\n" >> "$file"
+      printf "source /usr/local/bin/fuzzycd\n" >>"$file"
     fi
     patched="yes"
   }
 
   download_script() {
     echo "=== Saving fuzzycd to /usr/local/bin"
-    
+
     sudo=''
     if [[ $EUID -ne 0 ]]; then
       sudo='sudo'
@@ -41,7 +41,6 @@ fuzzy_cd_setup() {
       echo "    Add 'source ~/.fuzzy-cd/fuzzy-cd' to your shell's initialization script"
       exit 1
     fi
-
   }
 
   download_script
