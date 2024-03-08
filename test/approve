@@ -12,92 +12,99 @@ mkdir -p tmp/one/two
 mkdir -p "$HOME/.fuzzycd"
 
 context "when the shell is non-interactive"
-
-  describe "cd is builtin"
-    approve "type -t cd" "type_builtin"
+  describe "cd"
+    it "is a builtin"
+      approve "type -t cd" "type_builtin"
 
 
 context "when the shell is interactive"
-
   export FUZZYCD_TTY_FORCE=1
   source ../fuzzycd
 
-  describe "cd is a function"
-    approve "type -t cd" "type_function"
+  describe "cd"
+    it "is a function"
+      approve "type -t cd" "type_function"
 
-  describe "cd -h shows help"
-    approve "cd -h"
+  describe "cd -h"
+    it "shows help"
+      approve "cd -h"
 
-  describe "cd -v shows version"
-    approve "cd -v"
+  describe "cd -v"
+    it "shows version"
+      approve "cd -v"
 
-  describe "cd DIR adds it to history"
-    cd tmp/one/two > /dev/null
-    [[ $PWD == *tmp/one/two ]] || fail "Expected tmp/one/twp, got $PWD"
-    grep -q one/two "$FUZZYCD_HISTORY_FILE" || fail "Expected history file to contain one/two"
+  describe "cd DIR"
+    it "adds it to history"
+      cd tmp/one/two > /dev/null
+      [[ $PWD == *tmp/one/two ]] || fail "Expected tmp/one/twp, got $PWD"
+      grep -q one/two "$FUZZYCD_HISTORY_FILE" || fail "Expected history file to contain one/two"
 
-  describe "cd DIR with a fuzzy string works"
-    cd ontwo > /dev/null
-    [[ $PWD == *tmp/one/two ]] || fail "Expected tmp/one/twp, got $PWD"
+  describe "cd DIR with a fuzzy string"
+    it "changes to the requested directory"
+      cd ontwo > /dev/null
+      [[ $PWD == *tmp/one/two ]] || fail "Expected tmp/one/twp, got $PWD"
 
 
 context "when the history file contains some entries"
-
   rm -f "$FUZZYCD_HISTORY_FILE"  
   cd /usr/local/bin > /dev/null
   cd /usr/local/lib > /dev/null
   cd /etc > /dev/null
   EDITOR="cat"
 
-  describe "cd -s shows history file"
-    approve "cd -s"
+  describe "cd -s"
+    it "shows history file"
+      approve "cd -s"
 
-  describe "cd -e opens the history file"
-    approve "cd -e"
+  describe "cd -e"
+    it "opens the history file"
+      approve "cd -e"
 
-  describe "cd -d DIR removes DIR from history"
-    approve "cd -d /etc"
-    approve "cd -s" "cd_s_after_delete"
+  describe "cd -d DIR"
+    it "removes DIR from history"
+      approve "cd -d /etc"
+      approve "cd -s" "cd_s_after_delete"
 
-  describe "cd -d removes current directory from history"
-    cd /usr/local/lib
-    approve "cd -d"
-    approve "cd -s" "cd_s_after_delete2"
+  describe "cd -d"
+    it "removes current directory from history"
+      cd /usr/local/lib
+      approve "cd -d"
+      approve "cd -s" "cd_s_after_delete2"
 
   cd "$basedir"
   rm -f "$FUZZYCD_HISTORY_FILE"  
 
 context "when the history file contains gone directories"
-
   echo /usr/local/bin > "$FUZZYCD_HISTORY_FILE"
   echo /no/such/dir >> "$FUZZYCD_HISTORY_FILE"
 
-  describe "cd DIR deletes the gone directory"
-    approve "cd suchdir" || true
-    expect_exit_code 1
-    approve "cat $FUZZYCD_HISTORY_FILE" "cat_histfile"
+  describe "cd DIR"
+    it "deletes the gone directory"
+      approve "cd suchdir" || true
+      expect_exit_code 1
+      approve "cat $FUZZYCD_HISTORY_FILE" "cat_histfile"
 
 
 context "when CDPATH contains entries"
-
   echo /usr/local/bin > "$FUZZYCD_HISTORY_FILE"
   export CDPATH=".:/usr:/etc"
 
-  describe "cd DIR prefers paths that are sub directories of a CDPATH path"
-    approve "cd local"
+  describe "cd DIR"
+    it "prefers paths that are sub directories of a CDPATH path"
+      approve "cd local"
 
   unset CDPATH
 
 
 context "when FUZZYCD_MODE=m"
-
   export FUZZYCD_MODE=m
   rm -f "$FUZZYCD_HISTORY_FILE"
   cd /usr/local/bin > /dev/null
   cd /usr/local/lib > /dev/null
 
-  describe "cd with a fuzzy string goes to best match"
-    approve "cd localb"
+  describe "cd with a fuzzy string"
+    it "goes to best match"
+      approve "cd localb"
 
   cd "$basedir"
   rm -f "$FUZZYCD_HISTORY_FILE"
