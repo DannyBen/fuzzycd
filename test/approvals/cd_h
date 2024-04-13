@@ -1,4 +1,4 @@
-fuzzycd 0.2.2
+fuzzycd 0.2.3
 
 Usage:
   cd DIR       change working directory
@@ -16,9 +16,9 @@ Environment Variables:
 
   FUZZYCD_MODE
     Set operation mode (one of: m, i, p)
-      m = minimal, non interactive, always cd to best match
+      m = minimal, non interactive, always cd to best match (default)
       i = interactive when needed, no preview
-      p = interactive when needed, with ls preview (default)
+      p = interactive when needed, with ls preview
 
 Interactive Keyboard Bindings:
   Del

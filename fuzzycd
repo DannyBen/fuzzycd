@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 fuzzycd_run() {
-  local version="0.2.2"
+  local version="0.2.3"
   local histfile=${FUZZYCD_HISTORY_FILE:-"$HOME/.fuzzycd-history"}
 
   _fzcd_is_dirname() {
@@ -27,17 +27,21 @@ fuzzycd_run() {
     declare -a opts=(--query="$@" --bind="del:execute-silent(fuzzycd -d {})+reload(fuzzycd -s)" --select-1 --exit-0 --info=hidden --prompt="$ cd ")
 
     case "$FUZZYCD_MODE" in
-      "m")
-        fzf --filter "$@" --exit-0 | head -1
+      # p = interactive with preview
+      "p")
+        fzf "${opts[@]}" --preview='ls {}' --preview-window="border-left"
         ;;
 
+      # i = interactive, no preview
       "i")
         fzf "${opts[@]}"
         ;;
 
+      # m = minimal, non interactive (default)
       *)
-        fzf "${opts[@]}" --preview='ls {}' --preview-window="border-left"
+        fzf --filter "$@" --exit-0 | head -1
         ;;
+
     esac
   }
 
@@ -112,9 +116,9 @@ fuzzycd_run() {
     echo ""
     echo "  FUZZYCD_MODE"
     echo "    Set operation mode (one of: m, i, p)"
-    echo "      m = minimal, non interactive, always cd to best match"
+    echo "      m = minimal, non interactive, always cd to best match (default)"
     echo "      i = interactive when needed, no preview"
-    echo "      p = interactive when needed, with ls preview (default)"
+    echo "      p = interactive when needed, with ls preview"
     echo ""
     echo "Interactive Keyboard Bindings:"
     echo "  Del"

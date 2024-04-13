@@ -74,6 +74,7 @@ context "when the history file contains some entries"
   cd "$basedir"
   rm -f "$FUZZYCD_HISTORY_FILE"  
 
+
 context "when the history file contains gone directories"
   echo /usr/local/bin > "$FUZZYCD_HISTORY_FILE"
   echo /no/such/dir >> "$FUZZYCD_HISTORY_FILE"

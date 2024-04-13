@@ -2,7 +2,7 @@
 <img src='logo/logo-full.png' width=280>
 
 A bash function that patches the native `cd` to allow changing directories
-instantly using a fuzzy search
+instantly using a fuzzy match, with or without an interactive menu.
 
 ![](/demo/cast.gif)
 
@@ -10,7 +10,7 @@ instantly using a fuzzy search
 
 # Fuzzy CD
 
-![Version](https://img.shields.io/badge/version-0.2.2-blue.svg)
+![Version](https://img.shields.io/badge/version-0.2.3-blue.svg)
 [![Build Status](https://github.com/DannyBen/fuzzycd/workflows/Test/badge.svg)](https://github.com/DannyBen/fuzzycd/actions?query=workflow%3ATest)
 
 ## Features
@@ -20,12 +20,14 @@ instantly using a fuzzy search
 - Remembers all visited directories.
 - Allows changing directory to any directory from the history that matches the
   input fuzzy search (unless it matches an actual directory).
-- Shows available choices, with `ls` preview, when there are more than one
+- Shows available choices with `ls` preview, when there are more than one
   matches (optional).
 - Does not override the builtin `cd` when running non-interactively.
 - Adds flags such as `cd -l` to view and manage the history.
-- Interactive menu is optional and can be disabled in favor of "cd to best match".
-
+- Three operation modes:
+  - Minimal - cd to best match
+  - Interactive
+  - Interactive with `ls` preview
 
 ## Prerequisites
 
@@ -60,7 +62,7 @@ You are encouraged to inspect the [setup script](setup) before running.
   ```
   $ cd -h
 
-  fuzzycd 0.2.2
+  fuzzycd 0.2.3
 
   Usage:
     cd DIR       change working directory
@@ -78,9 +80,9 @@ You are encouraged to inspect the [setup script](setup) before running.
 
     FUZZYCD_MODE
       Set operation mode (one of: m, i, p)
-        m = minimal, non interactive, always cd to best match
+        m = minimal, non interactive, always cd to best match (default)
         i = interactive when needed, no preview
-        p = interactive when needed, with ls preview (default)
+        p = interactive when needed, with ls preview
 
   Interactive Keyboard Bindings:
     Del
