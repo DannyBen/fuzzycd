@@ -2,7 +2,6 @@
 ; This script generates the demo gif
 ; --------------------------------------------------
 #SingleInstance Force
-SetkeyDelay 0, 50
 
 ; NOTES TO SELF:
 ;
@@ -30,33 +29,39 @@ F12::
   Type("rm -f /tmp/history")
   Type("rm demo/cast.json {;} asciinema rec demo/cast.json")
 
+  SetkeyDelay 0, 50
+
   Type("cd -h |most")
   Sleep 300
   SetKeyDelay 200
-  Send {Down 14}q
+  Send {Down 14}
   SetkeyDelay 0, 50
-  Type("{#} First, we visit directories to add to history")
+  Sleep 1000
+  Send q
+
+  Type("{#} Visiting directories adds them to history")
   Type("cd test")
   Type("cd approvals")
   Type("cd ../../demo")
-  Type("cd")
-  Type("{#} Now we can cd using fuzzy search")
   
-  Type("{#} When there are multiple matches, we are prompted to choose")
+  Type("{#} Now cd also changes to the best matching directory")
+  Type("cd tst")
+
+  Type("{#} Enable interactive mode by setting FUZZYCD_MODE")
+  Type("export FUZZYCD_MODE=i")
   Type("cd fzy")
   SetKeyDelay 700
   Send {Up}{Up}{Down}{Enter}
   SetkeyDelay 0, 50
   
-  Type("cd")
-  Type("{#} When there is only one match, it is used instantly")
-  Type("cd fupp")
+  Type("cd ..")
+  Type("{#} The menu is not shown when there is only one match")
+  Type("cd app")
   Type("cd ../../")
-
-  Type("{#} End of transmission")
 
   Type("exit")
   Type("unset FUZZYCD_HISTORY_FILE")
+  Type("unset FUZZYCD_MODE")
   Type("agg --font-size 20 demo/cast.json demo/cast.gif")
   Type("{#} DONE")
 Return
