@@ -115,8 +115,8 @@ Use `cd` with a string that is *not* a directory. If exactly one directory in
 the history matches this string, you will instantly `cd` to it as usual.
 
 If more than one directories match, you will be prompted to choose one of the
-matching directories when running in interactive mode (default), or you will
-`cd` to the best match when running in non-interactive mode.
+matching directories when running in interactive mode, or you will
+`cd` to the best match when running in non-interactive mode (default).
 
 
 ## Uninstall
