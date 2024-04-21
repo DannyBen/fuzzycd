@@ -33,6 +33,10 @@ context "when the shell is interactive"
     it "shows version"
       approve "cd -v"
 
+  describe "cd -c"
+    it "shows completions function"
+      approve "cd -c"
+
   describe "cd DIR"
     it "adds it to history"
       cd tmp/one/two > /dev/null

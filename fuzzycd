@@ -107,6 +107,7 @@ fuzzycd_run() {
     echo "  cd -e        edit history file"
     echo "  cd -s        show history file"
     echo "  cd -d [DIR]  delete current or specified directory from history"
+    echo "  cd -c        show completions function [usage: eval \"\$(cd -c)\"]"
     echo "  cd -v        show version"
     echo "  cd -h        show this help"
     echo ""
@@ -123,6 +124,17 @@ fuzzycd_run() {
     echo "Interactive Keyboard Bindings:"
     echo "  Del"
     echo "    Delete selected directory from history"
+  }
+
+  _fzcd_show_completions() {
+    echo '_fuzzycd_completions() {'
+    echo '  local cur=${COMP_WORDS[COMP_CWORD]}'
+    echo '  local histfile=${FUZZYCD_HISTORY_FILE:-"$HOME/.fuzzycd-history"}'
+    echo '  _cd' # invoke original completions
+    echo '  [[ $cur =~ ^(/|\.) ]] && return'
+    echo '  COMPREPLY+=( $(fzf --filter "$cur" --exit-0 <"$histfile") )'
+    echo '}'
+    echo 'complete -o nosort -F _fuzzycd_completions cd'
   }
 
   _fzcd_handle_command() {
@@ -143,6 +155,7 @@ fuzzycd_run() {
       "-v") _fzcd_show_version ;;
       "-e") _fzcd_edit_histfile ;;
       "-s") _fzcd_show_histfile ;;
+      "-c") _fzcd_show_completions ;;
       "-d")
         shift
         _fzcd_delete_dir "$@"

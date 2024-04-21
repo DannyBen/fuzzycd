@@ -7,6 +7,7 @@ Usage:
   cd -e        edit history file
   cd -s        show history file
   cd -d [DIR]  delete current or specified directory from history
+  cd -c        show completions function [usage: eval "$(cd -c)"]
   cd -v        show version
   cd -h        show this help
 
