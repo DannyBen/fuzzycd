@@ -1,8 +1,9 @@
 _fuzzycd_completions() {
   local cur=${COMP_WORDS[COMP_CWORD]}
   local histfile=${FUZZYCD_HISTORY_FILE:-"$HOME/.fuzzycd-history"}
+  local count=${FUZZYCD_COMPLETIONS_COUNT:-10}
   _cd
   [[ $cur =~ ^(/|\.) ]] && return
-  COMPREPLY+=( $(fzf --filter "$cur" --exit-0 <"$histfile") )
+  COMPREPLY+=( $(fzf --filter "$cur" --exit-0 <"$histfile" | head -n$count) )
 }
 complete -o nosort -F _fuzzycd_completions cd

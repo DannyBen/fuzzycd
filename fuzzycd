@@ -121,6 +121,10 @@ fuzzycd_run() {
     echo "      i = interactive when needed, no preview"
     echo "      p = interactive when needed, with ls preview"
     echo ""
+    echo "  FUZZYCD_COMPLETIONS_COUNT"
+    echo "    Maximum number of suggestions to show in bash completions"
+    echo "    (default: 10)"
+    echo ""
     echo "Interactive Keyboard Bindings:"
     echo "  Del"
     echo "    Delete selected directory from history"
@@ -131,9 +135,10 @@ fuzzycd_run() {
     echo '_fuzzycd_completions() {'
     echo '  local cur=${COMP_WORDS[COMP_CWORD]}'
     echo '  local histfile=${FUZZYCD_HISTORY_FILE:-"$HOME/.fuzzycd-history"}'
+    echo '  local count=${FUZZYCD_COMPLETIONS_COUNT:-10}'
     echo '  _cd' # invoke original completions
     echo '  [[ $cur =~ ^(/|\.) ]] && return'
-    echo '  COMPREPLY+=( $(fzf --filter "$cur" --exit-0 <"$histfile") )'
+    echo '  COMPREPLY+=( $(fzf --filter "$cur" --exit-0 <"$histfile" | head -n$count) )'
     echo '}'
     echo 'complete -o nosort -F _fuzzycd_completions cd'
   }

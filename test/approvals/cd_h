@@ -21,6 +21,10 @@ Environment Variables:
       i = interactive when needed, no preview
       p = interactive when needed, with ls preview
 
+  FUZZYCD_COMPLETIONS_COUNT
+    Maximum number of suggestions to show in bash completions
+    (default: 10)
+
 Interactive Keyboard Bindings:
   Del
     Delete selected directory from history
