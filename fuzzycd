@@ -126,6 +126,7 @@ fuzzycd_run() {
     echo "    Delete selected directory from history"
   }
 
+  # shellcheck disable=SC2016
   _fzcd_show_completions() {
     echo '_fuzzycd_completions() {'
     echo '  local cur=${COMP_WORDS[COMP_CWORD]}'
