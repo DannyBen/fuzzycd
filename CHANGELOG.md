@@ -1,6 +1,13 @@
 Changelog
 ========================================
 
+v0.2.4 - 2024-04-22
+----------------------------------------
+
+- Add fuzzy bash completions [`5e7c9d2`](https://github.com/DannyBen/fuzzycd/commit/5e7c9d2)
+- Compare [`v0.2.3..v0.2.4`](https://github.com/dannyben/fuzzycd/compare/v0.2.3..v0.2.4)
+
+
 v0.2.3 - 2024-04-13
 ----------------------------------------
 
