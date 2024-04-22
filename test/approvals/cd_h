@@ -1,4 +1,4 @@
-fuzzycd 0.2.3
+fuzzycd 0.2.4
 
 Usage:
   cd DIR       change working directory
@@ -7,6 +7,7 @@ Usage:
   cd -e        edit history file
   cd -s        show history file
   cd -d [DIR]  delete current or specified directory from history
+  cd -c        show completions function [usage: eval "$(cd -c)"]
   cd -v        show version
   cd -h        show this help
 
@@ -19,6 +20,10 @@ Environment Variables:
       m = minimal, non interactive, always cd to best match (default)
       i = interactive when needed, no preview
       p = interactive when needed, with ls preview
+
+  FUZZYCD_COMPLETIONS_COUNT
+    Maximum number of suggestions to show in bash completions
+    (default: 10)
 
 Interactive Keyboard Bindings:
   Del

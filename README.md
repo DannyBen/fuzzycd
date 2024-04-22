@@ -10,7 +10,7 @@ instantly using a fuzzy match, with or without an interactive menu.
 
 # Fuzzy CD
 
-![Version](https://img.shields.io/badge/version-0.2.3-blue.svg)
+![Version](https://img.shields.io/badge/version-0.2.4-blue.svg)
 [![Build Status](https://github.com/DannyBen/fuzzycd/workflows/Test/badge.svg)](https://github.com/DannyBen/fuzzycd/actions?query=workflow%3ATest)
 
 ## Features
@@ -28,6 +28,7 @@ instantly using a fuzzy match, with or without an interactive menu.
   - Minimal - cd to best match
   - Interactive
   - Interactive with `ls` preview
+- Optional fuzzy bash completions.
 
 ## Prerequisites
 
@@ -61,9 +62,6 @@ You are encouraged to inspect the [setup script](setup) before running.
 
   ```
   $ cd -h
-
-  fuzzycd 0.2.3
-
   Usage:
     cd DIR       change working directory
     cd SEARCH    change working directory or show selection menu
@@ -71,6 +69,7 @@ You are encouraged to inspect the [setup script](setup) before running.
     cd -e        edit history file
     cd -s        show history file
     cd -d [DIR]  delete current or specified directory from history
+    cd -c        show completions function [usage: eval "$(cd -c)"]
     cd -v        show version
     cd -h        show this help
 
@@ -83,6 +82,10 @@ You are encouraged to inspect the [setup script](setup) before running.
         m = minimal, non interactive, always cd to best match (default)
         i = interactive when needed, no preview
         p = interactive when needed, with ls preview
+
+    FUZZYCD_COMPLETIONS_COUNT
+      Maximum number of suggestions to show in bash completions
+      (default: 10)
 
   Interactive Keyboard Bindings:
     Del
@@ -119,10 +122,25 @@ matching directories when running in interactive mode, or you will
 `cd` to the best match when running in non-interactive mode (default).
 
 
+## Bash completions
+
+To enable fuzzy bash completions, add the following line to your `~/.bashrc`:
+
+```bash
+eval "$(cd -c)"
+```
+
+This works best when tab completion is configured for inline completions, which
+you can set by adding/updating the `~/.inputrc` file:
+
+```bash
+# ~/.inputrc
+TAB: menu-complete
+```
+
 ## Uninstall
 
-1. Remove the `source /usr/local/bin/fuzzycd` line from your startup script(s)
-   (`~/.bashrc` and/or `~/.zshrc`).
+1. Remove the `source /usr/local/bin/fuzzycd` line from your `~/.bashrc`.
 2. Delete `/usr/local/bin/fuzzycd`.
 3. Optionally, delete the history file (`~/.fuzzycd-history`).
 4. Retsrat your session.
