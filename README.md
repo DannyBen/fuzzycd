@@ -143,7 +143,7 @@ TAB: menu-complete
 1. Remove the `source /usr/local/bin/fuzzycd` line from your `~/.bashrc`.
 2. Delete `/usr/local/bin/fuzzycd`.
 3. Optionally, delete the history file (`~/.fuzzycd-history`).
-4. Retsrat your session.
+4. Restart your session.
 
 
 ## Contributing / Support
