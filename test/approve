@@ -1,15 +1,8 @@
 #!/usr/bin/env bash
 
 cd test > /dev/null
-export APPROVALS_DIR="$PWD/approvals"
-source approvals.bash
+source test_helper.bash
 
-basedir="$PWD"
-source ../fuzzycd
-export FUZZYCD_HISTORY_FILE="$PWD/tmp/histfile"
-rm -f "$FUZZYCD_HISTORY_FILE"
-mkdir -p tmp/one/two
-mkdir -p "$HOME/.fuzzycd"
 
 context "when the shell is non-interactive"
   describe "cd"
