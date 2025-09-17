@@ -24,7 +24,7 @@ fuzzy_cd_setup() {
 
     curl_command="curl -s https://raw.githubusercontent.com/DannyBen/fuzzycd/master/fuzzycd > /usr/local/bin/fuzzycd"
     $sudo bash -c "$curl_command"
-    $sudo chmod a+x /usr/local/bin/fuzzycd
+    $sudo chmod 755 /usr/local/bin/fuzzycd
   }
 
   patch_startup_files() {
