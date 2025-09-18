@@ -7,10 +7,11 @@ fuzzy_cd_setup() {
     file="$1"
     if grep -q fuzzycd "$file"; then
       echo "=== Skipping $file"
-    else
-      echo "=== Amending $file"
-      printf "source /usr/local/bin/fuzzycd\n" >>"$file"
+      return
     fi
+
+    echo "=== Amending $file"
+    printf "source /usr/local/bin/fuzzycd\n" >>"$file"
     patched="yes"
   }
 
@@ -28,6 +29,7 @@ fuzzy_cd_setup() {
   }
 
   patch_startup_files() {
+    patched="no"
     echo "=== Searching for startup files"
     [[ -f "$HOME/.zshrc" ]] && patch_file "$HOME/.zshrc"
     [[ -f "$HOME/.bashrc" ]] && patch_file "$HOME/.bashrc"
