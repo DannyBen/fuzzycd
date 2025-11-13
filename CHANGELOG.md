@@ -1,6 +1,14 @@
 Changelog
 ========================================
 
+v0.2.5 - 2025-11-13
+----------------------------------------
+
+- Update setup to set 755 on the executable [`97fb76f`](https://github.com/DannyBen/fuzzycd/commit/97fb76f)
+- Add `cd -p` to prune all gone dirs [`5070e9a`](https://github.com/DannyBen/fuzzycd/commit/5070e9a)
+- Compare [`v0.2.4..v0.2.5`](https://github.com/dannyben/fuzzycd/compare/v0.2.4..v0.2.5)
+
+
 v0.2.4 - 2024-04-22
 ----------------------------------------
 
