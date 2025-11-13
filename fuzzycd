@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 fuzzycd_run() {
-  local version="0.2.4"
+  local version="0.2.5"
   local histfile=${FUZZYCD_HISTORY_FILE:-"$HOME/.fuzzycd-history"}
 
   _fzcd_is_dirname() {
@@ -89,6 +89,24 @@ fuzzycd_run() {
     echo "fuzzycd $version"
   }
 
+  _fzcd_prune_history() {
+    local dir tmpfile removed
+    tmpfile=$(mktemp "${histfile}.XXXXXX") || return 1
+    removed=0
+
+    while IFS= read -r dir; do
+      if [[ -d "$dir" ]]; then
+        echo "$dir" >>"$tmpfile"
+      else
+        echo "pruned $dir"
+        removed=1
+      fi
+    done <"$histfile"
+
+    mv "$tmpfile" "$histfile"
+    [[ $removed -eq 0 ]] && echo "nothing to prune"
+  }
+
   _fzcd_delete_dir() {
     dir="${1:-$PWD}"
     grep -Fxv "$dir" "$histfile" >"$HOME/.fuzzycd-history.tmp"
@@ -106,6 +124,7 @@ fuzzycd_run() {
     echo "  cd -l        list history with fzf"
     echo "  cd -e        edit history file"
     echo "  cd -s        show history file"
+    echo "  cd -p        prune non-existent directories from history"
     echo "  cd -d [DIR]  delete current or specified directory from history"
     echo "  cd -c        show completions function [usage: eval \"\$(cd -c)\"]"
     echo "  cd -v        show version"
@@ -161,6 +180,7 @@ fuzzycd_run() {
       "-v") _fzcd_show_version ;;
       "-e") _fzcd_edit_histfile ;;
       "-s") _fzcd_show_histfile ;;
+      "-p") _fzcd_prune_history ;;
       "-c") _fzcd_show_completions ;;
       "-d")
         shift

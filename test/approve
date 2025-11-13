@@ -75,6 +75,8 @@ context "when the history file contains some entries"
 context "when the history file contains gone directories"
   echo /usr/local/bin > "$FUZZYCD_HISTORY_FILE"
   echo /no/such/dir >> "$FUZZYCD_HISTORY_FILE"
+  echo /another/gone/dir >> "$FUZZYCD_HISTORY_FILE"
+  echo /and/another/gone/dir >> "$FUZZYCD_HISTORY_FILE"
 
   describe "cd DIR"
     it "deletes the gone directory"
@@ -82,6 +84,13 @@ context "when the history file contains gone directories"
       expect_exit_code 1
       approve "cat $FUZZYCD_HISTORY_FILE" "cat_histfile"
 
+  describe "cd -p"
+    it "removes all gone directories"
+      approve "cd -p"
+      approve "cat $FUZZYCD_HISTORY_FILE" "cat_histfile_pruned"
+
+    it "states that nothing was pruned if there is nothing to do"
+      approve "cd -p" "cd_p_nothing_pruned"
 
 context "when CDPATH contains entries"
   echo /usr/local/bin > "$FUZZYCD_HISTORY_FILE"

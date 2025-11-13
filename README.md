@@ -68,6 +68,7 @@ You are encouraged to inspect the [setup script](setup) before running.
     cd -l        list history with fzf
     cd -e        edit history file
     cd -s        show history file
+    cd -p        prune non-existent directories from history
     cd -d [DIR]  delete current or specified directory from history
     cd -c        show completions function [usage: eval "$(cd -c)"]
     cd -v        show version
