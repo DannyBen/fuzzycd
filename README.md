@@ -128,7 +128,7 @@ matching directories when running in interactive mode, or you will
 To enable fuzzy bash completions, add the following line to your `~/.bashrc`:
 
 ```bash
-eval "$(cd -c)"
+eval "$(fuzzycd -c)"
 ```
 
 This works best when tab completion is configured for inline completions, which
