@@ -10,7 +10,7 @@ instantly using a fuzzy match, with or without an interactive menu.
 
 # Fuzzy CD
 
-![repocard](repocard.svg)
+![repocard](https://repocard.dannyben.com/svg/fuzzycd.svg)
 
 ## Features
 
