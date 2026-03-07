@@ -22,7 +22,7 @@ chmod +x ssi
 # === Install ===
 
 ssi log info "Installing fuzzycd"
-ssi install bin https://raw.githubusercontent.com/DannyBen/fuzzycd/master/fuzzycd
+ssi install bin https://github.com/DannyBen/fuzzycd/releases/latest/download/fuzzycd
 
 cat <<'EOF' | ssi install startup --shell bash --name fuzzycd.bashrc -
 if command -v fuzzycd >/dev/null 2>&1; then
