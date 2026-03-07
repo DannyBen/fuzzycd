@@ -19,21 +19,9 @@ else
 fi
 chmod +x ssi
 
-# === Install ===
+# === Uninstall ===
 
-ssi log info "Installing fuzzycd"
-ssi install bin https://raw.githubusercontent.com/DannyBen/fuzzycd/master/fuzzycd
-
-cat <<'EOF' | ssi install startup --shell bash --name fuzzycd.bashrc -
-if command -v fuzzycd >/dev/null 2>&1; then
-  source "$(command -v fuzzycd)"
-fi
-EOF
-
-cat <<'EOF' | ssi install startup --shell zsh --name fuzzycd.zshrc -
-if command -v fuzzycd >/dev/null 2>&1; then
-  source "$(command -v fuzzycd)"
-fi
-EOF
-
-ssi log info "fuzzycd -v : $(fuzzycd -v)"
+ssi log info "Uninstalling fuzzycd"
+ssi uninstall bin fuzzycd
+ssi uninstall startup --shell bash fuzzycd.bashrc
+ssi uninstall startup --shell zsh fuzzycd.zshrc
