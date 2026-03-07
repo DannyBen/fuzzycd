@@ -45,6 +45,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+    - name: Upgrade the outdated bash
+      run: brew install bash
     - name: Run setup approval tests
       run: test/approve_setup
 
