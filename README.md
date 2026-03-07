@@ -38,14 +38,15 @@ Fuzzy CD requires a recent version of [fzf].
 
 ### Installing using the setup script
 
-This setup script will download the `fuzzycd` function to `/usr/local/bin` and
-apply the necessary `source` command to your startup script.
+This [setup](setup) script will download the `fuzzycd` function to either your system 
+bin root, or user bin root (whichever is writable) and place a startup file
+in your `.bashrc.d` or `.zshrc.d` directory. Note that it will NOT change your
+startup script, so you might need to ensure that your startup directories are
+sources. 
 
 ```shell
 $ curl -Ls get.dannyb.co/fuzzycd/setup | bash
 ```
-
-You are encouraged to inspect the [setup script](setup) before running.
 
 ### Installing manually
 
@@ -139,6 +140,14 @@ TAB: menu-complete
 ```
 
 ## Uninstall
+
+You can either run the uninstall script:
+
+```shell
+$ curl -Ls get.dannyb.co/fuzzycd/uninstall | bash
+```
+
+Or remove manually:
 
 1. Remove the `source /usr/local/bin/fuzzycd` line from your `~/.bashrc`.
 2. Delete `/usr/local/bin/fuzzycd`.
