@@ -19,6 +19,7 @@ source /usr/local/bin/fuzzycd
 describe "cd is a function"
   [[ "$(type -t cd)" == "function" ]] || fail "Expected function got $(type -t cd)"
 
-describe "~/.bashrc contains the source directive"
-  grep -q fuzzycd ~/.bashrc || fail "Expected to find source directive in ~/.bashrc"
+describe "~/.bashrc.d contains the source directive file"
+  [[ -f ~/.bashrc.d/fuzzycd.bashrc ]] || fail "Expected to find source directive in ~/.bashrc"
 
+../uninstall
