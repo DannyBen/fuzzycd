@@ -30,6 +30,46 @@ context "when the shell is interactive"
     it "shows completions function"
       approve "cd -c"
 
+    it "handles spaces when _cd is unavailable"
+      mkdir -p "tmp/space dir"
+      printf '%s\n' "$PWD/tmp/space dir" > "$FUZZYCD_HISTORY_FILE"
+      eval "$(fuzzycd_run -c)"
+      unset -f _cd 2>/dev/null || true
+      COMP_WORDS=(cd space)
+      COMP_CWORD=1
+      COMPREPLY=()
+      _fuzzycd_completions
+      [[ ${#COMPREPLY[@]} == 1 ]] || fail "Expected one completion, got ${#COMPREPLY[@]}"
+      [[ "${COMPREPLY[0]}" == "$PWD/tmp/space dir" ]] || fail "Expected spaced path completion"
+      [[ "$(fuzzycd_run -c)" != *mapfile* ]] || fail "Expected completion function to avoid mapfile dependency"
+
+    it "puts fuzzy matches before standard cd completions and removes duplicates"
+      mkdir -p "tmp/fuzzy one" "tmp/fuzzy two" "tmp/native three"
+      printf '%s\n%s\n' "$PWD/tmp/fuzzy one" "$PWD/tmp/fuzzy two" > "$FUZZYCD_HISTORY_FILE"
+      eval "$(fuzzycd_run -c)"
+      _cd() { COMPREPLY=("$PWD/tmp/native three" "$PWD/tmp/fuzzy two"); }
+      COMP_WORDS=(cd fuzzy)
+      COMP_CWORD=1
+      COMPREPLY=()
+      _fuzzycd_completions
+      [[ ${#COMPREPLY[@]} == 3 ]] || fail "Expected three merged completions, got ${#COMPREPLY[@]}"
+      [[ "${COMPREPLY[0]}" == "$PWD/tmp/fuzzy one" ]] || fail "Expected first fuzzy match first"
+      [[ "${COMPREPLY[1]}" == "$PWD/tmp/fuzzy two" ]] || fail "Expected second fuzzy match second"
+      [[ "${COMPREPLY[2]}" == "$PWD/tmp/native three" ]] || fail "Expected native completion last"
+
+    it "keeps fuzzycd registered as the cd completion function"
+      printf '%s\n' "$PWD/tmp/one/two" > "$FUZZYCD_HISTORY_FILE"
+      eval "$(fuzzycd_run -c)"
+      _cd() {
+        COMPREPLY=("$PWD/tmp/one/two")
+        complete -F _cd cd
+      }
+      COMP_WORDS=(cd one)
+      COMP_CWORD=1
+      COMPREPLY=()
+      _fuzzycd_completions
+      [[ "$(complete -p cd)" == *"_fuzzycd_completions"* ]] || fail "Expected fuzzycd completion to remain registered"
+
   describe "cd DIR"
     it "adds it to history"
       cd tmp/one/two > /dev/null
@@ -91,6 +131,23 @@ context "when the history file contains gone directories"
 
     it "states that nothing was pruned if there is nothing to do"
       approve "cd -p" "cd_p_nothing_pruned"
+
+
+context "when using a custom history file path"
+  export FUZZYCD_HISTORY_FILE="$PWD/tmp/custom/history"
+  mkdir -p "$(dirname "$FUZZYCD_HISTORY_FILE")"
+  echo /usr/local/bin > "$FUZZYCD_HISTORY_FILE"
+  echo /usr/local/lib >> "$FUZZYCD_HISTORY_FILE"
+  rm -f "$HOME/.fuzzycd-history.tmp"
+
+  describe "cd -d DIR"
+    it "rewrites the configured history file without using a fixed HOME temp file"
+      cd -d /usr/local/bin > /dev/null
+      [[ ! -e "$HOME/.fuzzycd-history.tmp" ]] || fail "Expected no temp file in HOME"
+      [[ "$(cat "$FUZZYCD_HISTORY_FILE")" == "/usr/local/lib" ]] || fail "Expected custom history file to be rewritten"
+
+  export FUZZYCD_HISTORY_FILE="$PWD/tmp/histfile"
+
 
 context "when CDPATH contains entries"
   echo /usr/local/bin > "$FUZZYCD_HISTORY_FILE"

@@ -2,8 +2,37 @@ _fuzzycd_completions() {
   local cur=${COMP_WORDS[COMP_CWORD]}
   local histfile=${FUZZYCD_HISTORY_FILE:-"$HOME/.fuzzycd-history"}
   local count=${FUZZYCD_COMPLETIONS_COUNT:-10}
-  _cd
-  [[ $cur =~ ^(/|\.) ]] && return
-  COMPREPLY+=( $(fzf --filter "$cur" --exit-0 <"$histfile" | head -n$count) )
+  local match existing found
+  local -a fuzzy_matches native_matches
+  if [[ $cur =~ ^(/|\.) ]]; then
+    [[ $(complete -p cd 2>/dev/null) == *"_fuzzycd_completions"* ]] || complete -o nosort -F _fuzzycd_completions cd
+    declare -F _cd >/dev/null && _cd
+    return
+  fi
+  while IFS= read -r match; do
+    fuzzy_matches+=( "$match" )
+  done < <(fzf --filter "$cur" --exit-0 <"$histfile" | head -n "$count")
+  if ! declare -F _cd >/dev/null && declare -F _completion_loader >/dev/null; then
+    _completion_loader cd >/dev/null 2>&1 || true
+  fi
+  if declare -F _cd >/dev/null; then
+    COMPREPLY=()
+    _cd
+    native_matches=( "${COMPREPLY[@]}" )
+  fi
+  [[ $(complete -p cd 2>/dev/null) == *"_fuzzycd_completions"* ]] || complete -o nosort -F _fuzzycd_completions cd
+  COMPREPLY=()
+  for match in "${fuzzy_matches[@]}" "${native_matches[@]}"; do
+    [[ -n $match ]] || continue
+    found=0
+    for existing in "${COMPREPLY[@]}"; do
+      if [[ $existing == "$match" ]]; then
+        found=1
+        break
+      fi
+    done
+    [[ $found -eq 0 ]] && COMPREPLY+=( "$match" )
+  done
+  return 0
 }
 complete -o nosort -F _fuzzycd_completions cd

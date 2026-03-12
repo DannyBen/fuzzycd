@@ -32,6 +32,7 @@ ssi install bin https://github.com/DannyBen/fuzzycd/releases/latest/download/fuz
 cat <<'EOF' | ssi install startup --shell bash --name fuzzycd.bashrc -
 if command -v fuzzycd >/dev/null 2>&1; then
   source "$(command -v fuzzycd)"
+  eval "$(fuzzycd -c)" # bash completions
 fi
 EOF
 
