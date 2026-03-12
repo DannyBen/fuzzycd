@@ -108,10 +108,18 @@ fuzzycd_run() {
   }
 
   _fzcd_delete_dir() {
+    local dir tmpfile status
     dir="${1:-$PWD}"
-    grep -Fxv "$dir" "$histfile" >"$HOME/.fuzzycd-history.tmp"
-    cp "$HOME/.fuzzycd-history.tmp" "$histfile"
-    rm -f "$HOME/.fuzzycd-history.tmp"
+    tmpfile=$(mktemp "${histfile}.XXXXXX") || return 1
+
+    grep -Fxv "$dir" "$histfile" >"$tmpfile"
+    status=$?
+    if [[ $status -gt 1 ]]; then
+      rm -f "$tmpfile"
+      return "$status"
+    fi
+
+    mv "$tmpfile" "$histfile"
     echo "deleted $dir"
   }
 

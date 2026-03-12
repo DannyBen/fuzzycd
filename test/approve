@@ -92,6 +92,23 @@ context "when the history file contains gone directories"
     it "states that nothing was pruned if there is nothing to do"
       approve "cd -p" "cd_p_nothing_pruned"
 
+
+context "when using a custom history file path"
+  export FUZZYCD_HISTORY_FILE="$PWD/tmp/custom/history"
+  mkdir -p "$(dirname "$FUZZYCD_HISTORY_FILE")"
+  echo /usr/local/bin > "$FUZZYCD_HISTORY_FILE"
+  echo /usr/local/lib >> "$FUZZYCD_HISTORY_FILE"
+  rm -f "$HOME/.fuzzycd-history.tmp"
+
+  describe "cd -d DIR"
+    it "rewrites the configured history file without using a fixed HOME temp file"
+      cd -d /usr/local/bin > /dev/null
+      [[ ! -e "$HOME/.fuzzycd-history.tmp" ]] || fail "Expected no temp file in HOME"
+      [[ "$(cat "$FUZZYCD_HISTORY_FILE")" == "/usr/local/lib" ]] || fail "Expected custom history file to be rewritten"
+
+  export FUZZYCD_HISTORY_FILE="$PWD/tmp/histfile"
+
+
 context "when CDPATH contains entries"
   echo /usr/local/bin > "$FUZZYCD_HISTORY_FILE"
   export CDPATH=".:/usr:/etc"
