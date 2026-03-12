@@ -38,11 +38,8 @@ Fuzzy CD requires a recent version of [fzf].
 
 ### Installing using the setup script
 
-This [setup](setup) script will download the `fuzzycd` function to either your system 
-bin root, or user bin root (whichever is writable) and place a startup file
-in your `.bashrc.d` or `.zshrc.d` directory. Note that it will NOT change your
-startup script, so you might need to ensure that your startup directories are
-sources. 
+Use the [setup](setup) script for automatic installation. It installs
+`fuzzycd` and adds the required shell startup hook.
 
 ```shell
 $ curl -Ls get.dannyb.co/fuzzycd/setup | bash
@@ -50,8 +47,8 @@ $ curl -Ls get.dannyb.co/fuzzycd/setup | bash
 
 ### Installing manually
 
-1. Place the `fuzzycd` file in `/usr/local/bin/` and make it executable
-2. Source it (`source /usr/local/bin/fuzzycd`) from your startup script (for example: `~/.bashrc`)
+1. Place the `fuzzycd` file somewhere on your `PATH` and make it executable.
+2. Source it from your startup script (for example: `source /usr/local/bin/fuzzycd` in `~/.bashrc`).
 
 
 ## Usage
@@ -144,17 +141,17 @@ TAB: menu-complete
 
 ## Uninstall
 
-You can either run the uninstall script:
+Use the uninstall script for automatic removal:
 
 ```shell
 $ curl -Ls get.dannyb.co/fuzzycd/uninstall | bash
 ```
 
-Or remove manually:
+Or remove it manually:
 
-1. Remove the `source /usr/local/bin/fuzzycd` line from your `~/.bashrc`.
-2. Remove the `eval "$(fuzzycd -c)"` line from your `~/.bashrc`, if you added it manually.
-3. Delete `/usr/local/bin/fuzzycd`.
+1. Remove the line that sources `fuzzycd` from your startup script.
+2. Remove the `eval "$(fuzzycd -c)"` line from your startup script, if you added it manually.
+3. Delete the `fuzzycd` executable from your `PATH`.
 4. Optionally, delete the history file (`~/.fuzzycd-history`).
 5. Restart your session.
 

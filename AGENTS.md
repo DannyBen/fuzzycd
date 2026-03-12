@@ -17,13 +17,10 @@ These notes apply to work inside this repository.
 - Useful repo commands are defined in `op.conf`.
 - Run them as `op COMMAND`.
 - Current commands include `op shellcheck`, `op shfmt`, `op codespell`, and `op test`.
-
-## Working Notes
-
 - Preserve the existing shell style and test conventions.
 - If temporary files or directories are needed, use `./tmp` only.
 - Do not create temporary folders outside `./tmp`.
 - Approval tests may need a temporary writable `HOME` in constrained environments; if so, place it under `./tmp`.
-- Completed so far: TODO item 1, making `cd -d` respect `FUZZYCD_HISTORY_FILE` and avoid the fixed `$HOME` temp file.
-- Completed so far: TODO item 2, making generated completions tolerate missing `_cd` and preserve paths with spaces.
+- Keep `cd -d` history rewrites tied to `FUZZYCD_HISTORY_FILE`; do not reintroduce fixed temp files under `$HOME`.
+- Keep completion behavior aligned with this contract: fuzzy history matches first, native `cd` matches after, no duplicates, and preserve `cd` registration to `_fuzzycd_completions`.
 - Installer behavior note: Bash completions may be installed automatically for Bash startup, but not for Zsh unless a native or explicitly supported compatibility path exists.
