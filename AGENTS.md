@@ -8,7 +8,8 @@ These notes apply to work inside this repository.
 
 - Keep using the existing approval-test style in `test/approve` unless there is a strong reason to introduce a different layer of testing.
 - Never edit approval fixtures in `test/approvals` manually.
-- If behavior changes intentionally, run the approval flow and let a human approve fixture updates.
+- If behavior changes intentionally and a fixture update is needed, leave that to the human approval flow by running `test/approve`.
+- If a test change causes an approval diff, keep the approval test in place, stop short of editing the fixture, and let the user run and approve it manually.
 - Prefer adding direct assertions in `test/approve` when a regression can be covered without changing fixtures.
 
 ## Repo Utilities
@@ -24,3 +25,5 @@ These notes apply to work inside this repository.
 - Do not create temporary folders outside `./tmp`.
 - Approval tests may need a temporary writable `HOME` in constrained environments; if so, place it under `./tmp`.
 - Completed so far: TODO item 1, making `cd -d` respect `FUZZYCD_HISTORY_FILE` and avoid the fixed `$HOME` temp file.
+- Completed so far: TODO item 2, making generated completions tolerate missing `_cd` and preserve paths with spaces.
+- Installer behavior note: Bash completions may be installed automatically for Bash startup, but not for Zsh unless a native or explicitly supported compatibility path exists.

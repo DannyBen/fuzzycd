@@ -125,7 +125,10 @@ matching directories when running in interactive mode, or you will
 
 ## Bash completions
 
-To enable fuzzy bash completions, add the following line to your `~/.bashrc`:
+If you install using the [`setup`](setup) script, fuzzy bash completions are
+enabled automatically for Bash.
+
+If you install manually, add the following line to your `~/.bashrc`:
 
 ```bash
 eval "$(fuzzycd -c)"
@@ -150,9 +153,10 @@ $ curl -Ls get.dannyb.co/fuzzycd/uninstall | bash
 Or remove manually:
 
 1. Remove the `source /usr/local/bin/fuzzycd` line from your `~/.bashrc`.
-2. Delete `/usr/local/bin/fuzzycd`.
-3. Optionally, delete the history file (`~/.fuzzycd-history`).
-4. Restart your session.
+2. Remove the `eval "$(fuzzycd -c)"` line from your `~/.bashrc`, if you added it manually.
+3. Delete `/usr/local/bin/fuzzycd`.
+4. Optionally, delete the history file (`~/.fuzzycd-history`).
+5. Restart your session.
 
 
 ## Contributing / Support
