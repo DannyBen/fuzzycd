@@ -7,6 +7,7 @@ These notes apply to work inside this repository.
 ## Testing Rules
 
 - Keep using the existing approval-test style in `test/approve` unless there is a strong reason to introduce a different layer of testing.
+- Use Shellkin in `features/` as the acceptance layer for the most meaningful human-readable flows; keep it focused on end-to-end behavior rather than shell-completion internals.
 - Never edit approval fixtures in `test/approvals` manually.
 - If behavior changes intentionally and a fixture update is needed, leave that to the human approval flow by running `test/approve`.
 - If a test change causes an approval diff, keep the approval test in place, stop short of editing the fixture, and let the user run and approve it manually.
@@ -16,7 +17,7 @@ These notes apply to work inside this repository.
 
 - Useful repo commands are defined in `op.conf`.
 - Run them as `op COMMAND`.
-- Current commands include `op shellcheck`, `op shfmt`, `op codespell`, and `op test`.
+- Current commands include `op shellcheck`, `op shfmt`, `op codespell`, `op acceptance`, and `op test`.
 - Preserve the existing shell style and test conventions.
 - If temporary files or directories are needed, use `./tmp` only.
 - Do not create temporary folders outside `./tmp`.

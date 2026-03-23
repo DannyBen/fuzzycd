@@ -164,6 +164,13 @@ Or remove it manually:
 If you experience any issue, have a question or a suggestion, or if you wish
 to contribute, feel free to [open an issue][issues].
 
+Tests are split into two layers:
+
+- `test/approve` keeps exact-output approval coverage and low-level shell assertions.
+- `features/` contains Shellkin acceptance scenarios for the main user-facing flows.
+
+Run them with `op test`, or run the acceptance layer alone with `op acceptance`.
+
 ---
 
 <table>

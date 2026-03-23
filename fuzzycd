@@ -105,6 +105,7 @@ fuzzycd_run() {
 
     mv "$tmpfile" "$histfile"
     [[ $removed -eq 0 ]] && echo "nothing to prune"
+    return 0
   }
 
   _fzcd_delete_dir() {

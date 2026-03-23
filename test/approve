@@ -127,10 +127,12 @@ context "when the history file contains gone directories"
   describe "cd -p"
     it "removes all gone directories"
       approve "cd -p"
+      expect_exit_code 0
       approve "cat $FUZZYCD_HISTORY_FILE" "cat_histfile_pruned"
 
     it "states that nothing was pruned if there is nothing to do"
       approve "cd -p" "cd_p_nothing_pruned"
+      expect_exit_code 0
 
 
 context "when using a custom history file path"
