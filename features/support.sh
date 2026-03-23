@@ -16,8 +16,8 @@ create_workspace() {
 
   OLD_PWD=$PWD
   cd "$WORKSPACE" || return 1
-  defer cd "$OLD_PWD"
   defer rm -rf "$WORKSPACE"
+  defer cd "$OLD_PWD"
 
   # shellcheck disable=SC1091
   source "$REPO_ROOT/fuzzycd"
