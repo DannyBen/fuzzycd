@@ -47,6 +47,8 @@ jobs:
       uses: actions/checkout@v4
     - name: Install fzf
       run: brew install fzf
+    - name: Upgrade the outdated bash
+      run: brew install bash
     - name: Install Shellkin
       run: curl -Ls get.dannyb.co/shellkin/setup | bash
     - name: Run acceptance tests
