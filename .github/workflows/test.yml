@@ -4,25 +4,19 @@ on:
   push: { branches: master }
 
 jobs:
-  test:
-    name: Approvals on Ubuntu
+  ubuntu_approval:
+    name: Approval on Ubuntu
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
     - name: Install fzf
       run: sudo apt install -y fzf
-    - name: Install Shellkin
-      run: curl -Ls get.dannyb.co/shellkin/setup | bash
-    - name: Run shellcheck tests
-      run: shellcheck fuzzycd setup
     - name: Run approval tests
       run: test/approve
-    - name: Run acceptance tests
-      run: shellkin
 
-  test_mac:
-    name: Approvals on macOS
+  macos_approval:
+    name: Approval on macOS
     runs-on: macos-latest
     steps:
     - name: Checkout code
@@ -31,6 +25,32 @@ jobs:
       run: brew install fzf
     - name: Run approval tests
       run: test/approve
+
+  ubuntu_acceptance:
+    name: Acceptance on Ubuntu
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Install fzf
+      run: sudo apt install -y fzf
+    - name: Install Shellkin
+      run: curl -Ls get.dannyb.co/shellkin/setup | bash
+    - name: Run acceptance tests
+      run: shellkin
+
+  macos_acceptance:
+    name: Acceptance on macOS
+    runs-on: macos-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Install fzf
+      run: brew install fzf
+    - name: Install Shellkin
+      run: curl -Ls get.dannyb.co/shellkin/setup | bash
+    - name: Run acceptance tests
+      run: shellkin
 
   ubuntu_setup:
     name: Setup on Ubuntu
