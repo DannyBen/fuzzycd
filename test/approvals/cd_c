@@ -22,7 +22,7 @@ _fuzzycd_completions() {
   fi
   [[ $(complete -p cd 2>/dev/null) == *"_fuzzycd_completions"* ]] || complete -o nosort -F _fuzzycd_completions cd
   COMPREPLY=()
-  for match in "${fuzzy_matches[@]}" "${native_matches[@]}"; do
+  for match in "${native_matches[@]}" "${fuzzy_matches[@]}"; do
     [[ -n $match ]] || continue
     found=0
     for existing in "${COMPREPLY[@]}"; do

@@ -27,7 +27,7 @@ instantly using a fuzzy match, with or without an interactive menu.
   - Minimal - cd to best match
   - Interactive
   - Interactive with `ls` preview
-- Optional fuzzy bash completions.
+- Optional bash completions that prefer native `cd` matches before fuzzy history.
 
 ## Prerequisites
 
@@ -130,6 +130,9 @@ If you install manually, add the following line to your `~/.bashrc`:
 ```bash
 eval "$(fuzzycd -c)"
 ```
+
+These completions keep Bash's native `cd` matches first and then append fuzzy
+history matches without duplicates.
 
 This works best when tab completion is configured for inline completions, which
 you can set by adding/updating the `~/.inputrc` file:

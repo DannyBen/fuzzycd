@@ -22,5 +22,5 @@ These notes apply to work inside this repository.
 - Do not create temporary folders outside `./tmp`.
 - Approval tests may need a temporary writable `HOME` in constrained environments; if so, place it under `./tmp`.
 - Keep `cd -d` history rewrites tied to `FUZZYCD_HISTORY_FILE`; do not reintroduce fixed temp files under `$HOME`.
-- Keep completion behavior aligned with this contract: fuzzy history matches first, native `cd` matches after, no duplicates, and preserve `cd` registration to `_fuzzycd_completions`.
+- Keep completion behavior aligned with this contract: native `cd` matches first, fuzzy history matches after, no duplicates, and preserve `cd` registration to `_fuzzycd_completions`.
 - Installer behavior note: Bash completions may be installed automatically for Bash startup, but not for Zsh unless a native or explicitly supported compatibility path exists.
