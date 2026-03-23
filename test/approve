@@ -43,7 +43,7 @@ context "when the shell is interactive"
       [[ "${COMPREPLY[0]}" == "$PWD/tmp/space dir" ]] || fail "Expected spaced path completion"
       [[ "$(fuzzycd_run -c)" != *mapfile* ]] || fail "Expected completion function to avoid mapfile dependency"
 
-    it "puts fuzzy matches before standard cd completions and removes duplicates"
+    it "puts standard cd completions before fuzzy matches and removes duplicates"
       mkdir -p "tmp/fuzzy one" "tmp/fuzzy two" "tmp/native three"
       printf '%s\n%s\n' "$PWD/tmp/fuzzy one" "$PWD/tmp/fuzzy two" > "$FUZZYCD_HISTORY_FILE"
       eval "$(fuzzycd_run -c)"
@@ -53,9 +53,9 @@ context "when the shell is interactive"
       COMPREPLY=()
       _fuzzycd_completions
       [[ ${#COMPREPLY[@]} == 3 ]] || fail "Expected three merged completions, got ${#COMPREPLY[@]}"
-      [[ "${COMPREPLY[0]}" == "$PWD/tmp/fuzzy one" ]] || fail "Expected first fuzzy match first"
-      [[ "${COMPREPLY[1]}" == "$PWD/tmp/fuzzy two" ]] || fail "Expected second fuzzy match second"
-      [[ "${COMPREPLY[2]}" == "$PWD/tmp/native three" ]] || fail "Expected native completion last"
+      [[ "${COMPREPLY[0]}" == "$PWD/tmp/native three" ]] || fail "Expected native completion first"
+      [[ "${COMPREPLY[1]}" == "$PWD/tmp/fuzzy two" ]] || fail "Expected duplicate fuzzy/native match second"
+      [[ "${COMPREPLY[2]}" == "$PWD/tmp/fuzzy one" ]] || fail "Expected remaining fuzzy match last"
 
     it "keeps fuzzycd registered as the cd completion function"
       printf '%s\n' "$PWD/tmp/one/two" > "$FUZZYCD_HISTORY_FILE"

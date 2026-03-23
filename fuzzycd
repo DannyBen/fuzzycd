@@ -183,7 +183,7 @@ fuzzycd_run() {
     echo '  fi'
     echo '  [[ $(complete -p cd 2>/dev/null) == *"_fuzzycd_completions"* ]] || complete -o nosort -F _fuzzycd_completions cd'
     echo '  COMPREPLY=()'
-    echo '  for match in "${fuzzy_matches[@]}" "${native_matches[@]}"; do'
+    echo '  for match in "${native_matches[@]}" "${fuzzy_matches[@]}"; do'
     echo '    [[ -n $match ]] || continue'
     echo '    found=0'
     echo '    for existing in "${COMPREPLY[@]}"; do'
