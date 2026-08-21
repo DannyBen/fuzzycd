@@ -1,6 +1,23 @@
 Changelog
 ========================================
 
+v0.3.1 - 2026-08-21
+----------------------------------------
+
+- Change bash completion order to native before history [`009816d`](https://github.com/DannyBen/fuzzycd/commit/009816d)
+- Compare [`v0.3.0..v0.3.1`](https://github.com/dannyben/fuzzycd/compare/v0.3.0..v0.3.1)
+
+
+v0.3.0 - 2026-03-12
+----------------------------------------
+
+- Update setup/uninstall [`38ead7b`](https://github.com/DannyBen/fuzzycd/commit/38ead7b)
+- Change setup to download latest release [`bbb0fc9`](https://github.com/DannyBen/fuzzycd/commit/bbb0fc9)
+- Improve `cd -d` for some use cases [`1b1e19d`](https://github.com/DannyBen/fuzzycd/commit/1b1e19d)
+- Fix bash completions [`e34347f`](https://github.com/DannyBen/fuzzycd/commit/e34347f)
+- Compare [`v0.2.5..v0.3.0`](https://github.com/dannyben/fuzzycd/compare/v0.2.5..v0.3.0)
+
+
 v0.2.5 - 2025-11-13
 ----------------------------------------
 
