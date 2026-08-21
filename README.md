@@ -45,6 +45,12 @@ Use the [setup](setup) script for automatic installation. It installs
 $ curl -Ls get.dannyb.co/fuzzycd/setup | bash
 ```
 
+### Installing with Homebrew
+
+```shell
+$ brew install dannyben/tap/fuzzycd
+```
+
 ### Installing manually
 
 1. Place the `fuzzycd` file somewhere on your `PATH` and make it executable.
